@@ -1,10 +1,18 @@
-function Card({ theme, themeName, title, date }) {
+const topicMap = {
+  "Web Design": "_orange",
+  Research: "_green",
+  Development: "_purple",
+  Testing: "_orange",
+  Copywriting: "_purple",
+};
+
+function Card({ card }) {
   return (
     <div className="cards__item">
       <div className="cards__card card">
         <div className="card__group">
-          <div className={`card__theme ${theme}`}>
-            <p className={theme}>{themeName}</p>
+          <div className={`card__theme ${topicMap[card.topic] || "_gray"}`}>
+            <p>{card.topic}</p>
           </div>
           <a href="#popBrowse" target="_self">
             <div className="card__btn">
@@ -16,7 +24,7 @@ function Card({ theme, themeName, title, date }) {
         </div>
         <div className="card__content">
           <a href="" target="_blank">
-            <h3 className="card__title">{title}</h3>
+            <h3 className="card__title">{card.title}</h3>
           </a>
           <div className="card__date">
             <svg
@@ -47,7 +55,7 @@ function Card({ theme, themeName, title, date }) {
                 </clipPath>
               </defs>
             </svg>
-            <p>{date}</p>
+            <p>{card.date}</p>
           </div>
         </div>
       </div>
