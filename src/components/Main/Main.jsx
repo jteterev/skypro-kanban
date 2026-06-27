@@ -2,6 +2,13 @@ import { useState, useEffect } from "react";
 import { cardList } from "../../data";
 import Column from "../Column/Column";
 import Card from "../Card/Card";
+import {
+  MainStyled,
+  MainBlockStyled,
+  MainContentStyled,
+  MainColumnStyled,
+  LoadingStyled,
+} from "./Main.styled";
 
 function Main() {
   const [isLoading, setIsLoading] = useState(true);
@@ -28,32 +35,34 @@ function Main() {
 
   if (isLoading) {
     return (
-      <main className="main">
+      <MainStyled>
         <div className="container">
-          <div className="main__block">
-            <div className="loading">Данные загружаются</div>
-          </div>
+          <MainBlockStyled>
+            <LoadingStyled>Данные загружаются</LoadingStyled>
+          </MainBlockStyled>
         </div>
-      </main>
+      </MainStyled>
     );
   }
 
   return (
-    <main className="main">
+    <MainStyled>
       <div className="container">
-        <div className="main__block">
-          <div className="main__content">
+        <MainBlockStyled>
+          <MainContentStyled>
             {statusColumns.map((column) => (
-              <Column key={column.key} title={column.label}>
-                {getCardsByStatus(column.key).map((card) => (
-                  <Card key={card.id} card={card} />
-                ))}
-              </Column>
+              <MainColumnStyled key={column.key}>
+                <Column title={column.label}>
+                  {getCardsByStatus(column.key).map((card) => (
+                    <Card key={card.id} card={card} />
+                  ))}
+                </Column>
+              </MainColumnStyled>
             ))}
-          </div>
-        </div>
+          </MainContentStyled>
+        </MainBlockStyled>
       </div>
-    </main>
+    </MainStyled>
   );
 }
 

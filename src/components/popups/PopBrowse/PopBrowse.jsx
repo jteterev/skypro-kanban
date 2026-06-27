@@ -1,5 +1,3 @@
-import Calendar from '../../Calendar/Calendar';
-
 function PopBrowse() {
   return (
     <div className="pop-browse" id="popBrowse">
@@ -102,35 +100,52 @@ function PopBrowse() {
                       <div className="calendar__cell _cell-day ">6</div>
                       <div className="calendar__cell _cell-day">7</div>
                       <div className="calendar__cell _cell-day _current">8</div>
-                      <div className="calendar__cell _cell-day _weekend _active-day">9</div>
-                      <div className="calendar__cell _cell-day _weekend">10</div>
+                      <div className="calendar__cell _cell-day _weekend _active-day">
+                        9
+                      </div>
+                      <div className="calendar__cell _cell-day _weekend">
+                        10
+                      </div>
                       <div className="calendar__cell _cell-day">11</div>
                       <div className="calendar__cell _cell-day">12</div>
                       <div className="calendar__cell _cell-day">13</div>
                       <div className="calendar__cell _cell-day">14</div>
                       <div className="calendar__cell _cell-day">15</div>
-                      <div className="calendar__cell _cell-day _weekend">16</div>
-                      <div className="calendar__cell _cell-day _weekend">17</div>
+                      <div className="calendar__cell _cell-day _weekend">
+                        16
+                      </div>
+                      <div className="calendar__cell _cell-day _weekend">
+                        17
+                      </div>
                       <div className="calendar__cell _cell-day">18</div>
                       <div className="calendar__cell _cell-day">19</div>
                       <div className="calendar__cell _cell-day">20</div>
                       <div className="calendar__cell _cell-day">21</div>
                       <div className="calendar__cell _cell-day">22</div>
-                      <div className="calendar__cell _cell-day _weekend">23</div>
-                      <div className="calendar__cell _cell-day _weekend">24</div>
+                      <div className="calendar__cell _cell-day _weekend">
+                        23
+                      </div>
+                      <div className="calendar__cell _cell-day _weekend">
+                        24
+                      </div>
                       <div className="calendar__cell _cell-day">25</div>
                       <div className="calendar__cell _cell-day">26</div>
                       <div className="calendar__cell _cell-day">27</div>
                       <div className="calendar__cell _cell-day">28</div>
                       <div className="calendar__cell _cell-day">29</div>
-                      <div className="calendar__cell _cell-day _weekend">30</div>
-                      <div className="calendar__cell _other-month _weekend">1</div>
+                      <div className="calendar__cell _cell-day _weekend">
+                        30
+                      </div>
+                      <div className="calendar__cell _other-month _weekend">
+                        1
+                      </div>
                     </div>
                   </div>
                   <input type="hidden" id="datepick_value" value="08.09.2023" />
                   <div className="calendar__period">
                     <p className="calendar__p date-end">
-                      Срок исполнения: <span className="date-control">09.09.23</span>
+                      Срок исполнения:{" "}
+                      <span className="date-control">09.09.23</span>
                     </p>
                   </div>
                 </div>
@@ -163,7 +178,10 @@ function PopBrowse() {
                 <button className="btn-edit__edit _btn-bor _hover03">
                   <a href="#">Отменить</a>
                 </button>
-                <button className="btn-edit__delete _btn-bor _hover03" id="btnDelete">
+                <button
+                  className="btn-edit__delete _btn-bor _hover03"
+                  id="btnDelete"
+                >
                   <a href="#">Удалить задачу</a>
                 </button>
               </div>

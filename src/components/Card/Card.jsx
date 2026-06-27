@@ -1,32 +1,36 @@
-const topicMap = {
-  "Web Design": "_orange",
-  Research: "_green",
-  Development: "_purple",
-  Testing: "_orange",
-  Copywriting: "_purple",
-};
+import { topicMap } from "../../data";
+import {
+  CardsItemStyled,
+  CardsCardStyled,
+  CardGroupStyled,
+  CardThemeStyled,
+  CardBtnStyled,
+  CardTitleStyled,
+  CardContentStyled,
+  CardDateStyled,
+} from "./Card.styled";
 
 function Card({ card }) {
   return (
-    <div className="cards__item">
-      <div className="cards__card card">
-        <div className="card__group">
-          <div className={`card__theme ${topicMap[card.topic] || "_gray"}`}>
+    <CardsItemStyled>
+      <CardsCardStyled>
+        <CardGroupStyled>
+          <CardThemeStyled className={topicMap[card.topic] || "_gray"}>
             <p>{card.topic}</p>
-          </div>
+          </CardThemeStyled>
           <a href="#popBrowse" target="_self">
-            <div className="card__btn">
+            <CardBtnStyled>
               <div></div>
               <div></div>
               <div></div>
-            </div>
+            </CardBtnStyled>
           </a>
-        </div>
-        <div className="card__content">
+        </CardGroupStyled>
+        <CardContentStyled>
           <a href="" target="_blank">
-            <h3 className="card__title">{card.title}</h3>
+            <CardTitleStyled>{card.title}</CardTitleStyled>
           </a>
-          <div className="card__date">
+          <CardDateStyled>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="13"
@@ -56,10 +60,10 @@ function Card({ card }) {
               </defs>
             </svg>
             <p>{card.date}</p>
-          </div>
-        </div>
-      </div>
-    </div>
+          </CardDateStyled>
+        </CardContentStyled>
+      </CardsCardStyled>
+    </CardsItemStyled>
   );
 }
 
