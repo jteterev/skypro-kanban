@@ -1,34 +1,55 @@
-import Column from '../Column/Column';
-import Card from '../Card/Card';
+import { useState, useEffect } from "react";
+import { cardList } from "../../data";
+import Column from "../Column/Column";
+import Card from "../Card/Card";
 
 function Main() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [cards, setCards] = useState([]);
+
+  const statusColumns = [
+    { key: "Без статуса", label: "Без статуса" },
+    { key: "Нужно сделать", label: "Нужно сделать" },
+    { key: "В работе", label: "В работе" },
+    { key: "Тестирование", label: "Тестирование" },
+    { key: "Готово", label: "Готово" },
+  ];
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCards(cardList);
+      setIsLoading(false);
+    }, 1500);
+  }, []);
+
+  const getCardsByStatus = (status) => {
+    return cards.filter((card) => card.status === status);
+  };
+
+  if (isLoading) {
+    return (
+      <main className="main">
+        <div className="container">
+          <div className="main__block">
+            <div className="loading">Данные загружаются</div>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="main">
       <div className="container">
         <div className="main__block">
           <div className="main__content">
-            <Column title="Без статуса">
-              <Card theme="_orange" themeName="Web Design" title="Название задачи" date="30.10.23" />
-              <Card theme="_green" themeName="Research" title="Название задачи" date="30.10.23" />
-              <Card theme="_orange" themeName="Web Design" title="Название задачи" date="30.10.23" />
-              <Card theme="_purple" themeName="Copywriting" title="Название задачи" date="30.10.23" />
-              <Card theme="_orange" themeName="Web Design" title="Название задачи" date="30.10.23" />
-            </Column>
-            <Column title="Нужно сделать">
-              <Card theme="_green" themeName="Research" title="Название задачи" date="30.10.23" />
-            </Column>
-            <Column title="В работе">
-              <Card theme="_green" themeName="Research" title="Название задачи" date="30.10.23" />
-              <Card theme="_purple" themeName="Copywriting" title="Название задачи" date="30.10.23" />
-              <Card theme="_orange" themeName="Web Design" title="Название задачи" date="30.10.23" />
-            </Column>
-            <Column title="Тестирование">
-              <Card theme="_orange" themeName="Web Design" title="Название задачи" date="30.10.23" />
-            </Column>
-            <Column title="Готово">
-              <Card theme="_purple" themeName="Copywriting" title="Название задачи" date="30.10.23" />
-              <Card theme="_green" themeName="Research" title="Название задачи" date="30.10.23" />
-            </Column>
+            {statusColumns.map((column) => (
+              <Column key={column.key} title={column.label}>
+                {getCardsByStatus(column.key).map((card) => (
+                  <Card key={card.id} card={card} />
+                ))}
+              </Column>
+            ))}
           </div>
         </div>
       </div>

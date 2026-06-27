@@ -721,6 +721,17 @@ body {
   display: none;
 }
 
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #94a6be;
+  letter-spacing: -0.14px;
+}
+
 .header {
   width: 100%;
   margin: 0 auto;
@@ -784,6 +795,10 @@ body {
   margin: -6px 0 0 5px;
   padding: 0;
 }
+.header__pop-user-set.show {
+  display: block;
+}
+
 .header__pop-user-set {
   display: none;
   position: absolute;
@@ -815,7 +830,7 @@ body {
 }
 .main__column {
   width: 20%;
-  margin: 0 auto;
+  margin: 0 10px;
   display: block;
 }
 
