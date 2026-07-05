@@ -1,12 +1,13 @@
-import './App.css';
-import Header from './components/Header/Header';
-import Main from './components/Main/Main';
-import PopNewCard from './components/popups/PopNewCard/PopNewCard';
-import PopBrowse from './components/popups/PopBrowse/PopBrowse';
+import { GlobalStyles } from "./styles/GlobalStyles";
+import Header from "./components/Header/Header";
+import Main from "./components/Main/Main";
+import PopNewCard from "./components/popups/PopNewCard/PopNewCard";
+import PopBrowse from "./components/popups/PopBrowse/PopBrowse";
 
 function App() {
   return (
     <div className="wrapper">
+      <GlobalStyles />
       {/* pop-up start*/}
 
       <div className="pop-exit" id="popExit">
