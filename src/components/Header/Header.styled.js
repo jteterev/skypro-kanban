@@ -35,6 +35,12 @@ export const HeaderBlockStyled = styled.div`
   top: 0;
   left: 0;
   padding: 0 10px;
+
+  @media screen and (max-width: 660px) {
+    height: auto;
+    padding: 10px 0;
+    flex-direction: column;
+  }
 `;
 
 export const HeaderLogoStyled = styled.div`
@@ -49,6 +55,11 @@ export const HeaderNavStyled = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media screen and (max-width: 660px) {
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 export const HeaderBtnNewStyled = styled.button`
@@ -71,6 +82,11 @@ export const HeaderBtnNewStyled = styled.button`
 
   &:hover {
     background-color: ${Palette.primaryHover};
+  }
+
+  @media screen and (max-width: 660px) {
+    width: 100%;
+    margin: 10px 0;
   }
 `;
 

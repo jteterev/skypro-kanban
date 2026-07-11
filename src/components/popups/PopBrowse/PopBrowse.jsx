@@ -1,6 +1,8 @@
+import { PopBrowseStyles } from "../../../styles/PopupStyles";
+
 function PopBrowse() {
   return (
-    <div className="pop-browse" id="popBrowse">
+    <PopBrowseStyles id="popBrowse">
       <div className="pop-browse__container">
         <div className="pop-browse__block">
           <div className="pop-browse__content">
@@ -192,7 +194,7 @@ function PopBrowse() {
           </div>
         </div>
       </div>
-    </div>
+    </PopBrowseStyles>
   );
 }
 

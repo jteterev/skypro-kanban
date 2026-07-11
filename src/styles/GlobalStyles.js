@@ -50,22 +50,6 @@ export const GlobalStyles = createGlobalStyle`
     color: #000000;
   }
 
-  /* Layout */
-  .wrapper {
-    max-width: 100%;
-    width: 100vw;
-    min-height: 100vh;
-    overflow: hidden;
-    background-color: #f1f1f1;
-  }
-
-  .container {
-    max-width: 1260px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 30px;
-  }
-
   /* Hover effects */
   ._hover01:hover {
     background-color: #33399b;
@@ -93,9 +77,7 @@ export const GlobalStyles = createGlobalStyle`
 
   /* Popup target display */
   .pop-user-set:target,
-  .pop-exit:target,
-  .pop-new-card:target,
-  .pop-browse:target {
+  .pop-exit:target {
     display: block;
   }
 
@@ -142,59 +124,26 @@ export const GlobalStyles = createGlobalStyle`
 
   /* Media */
   @media screen and (max-width: 1200px) {
-    .main__block {
-      width: 100%;
-      margin: 0 auto;
-      padding: 40px 0 64px;
-    }
-
-    .main__content {
-      display: block;
-    }
-
-    .main__column {
-      width: 100%;
-      margin: 0 auto;
-      display: block;
-    }
-
     .cards {
       width: 100%;
       display: flex;
       overflow-y: auto;
-    }
 
-    .cards__card {
-      width: 220px;
-      height: 130px;
-      background-color: #ffffff;
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: stretch;
-      padding: 15px 13px 19px;
+      .cards__card {
+        width: 220px;
+        height: 130px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: stretch;
+        padding: 15px 13px 19px;
+      }
     }
   }
 
   @media screen and (max-width: 660px) {
-    .pop-new-card {
-      top: 70px;
-    }
-
-    .pop-new-card__container {
-      padding: 0;
-      justify-content: flex-start;
-    }
-
-    .pop-new-card__block {
-      border-radius: 0;
-    }
-
-    .pop-new-card__wrap {
-      display: block;
-    }
-
     .calendar {
       max-width: 340px;
       width: 100%;
@@ -227,26 +176,6 @@ export const GlobalStyles = createGlobalStyle`
     .calendar__cell {
       width: 26px;
       height: 26px;
-    }
-
-    .calendar__cell p {
-      font-size: 14px;
-    }
-
-    .header__block {
-      height: auto;
-      padding: 10px 0;
-      flex-direction: column;
-    }
-
-    .header__nav {
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .header__btn-main-new {
-      width: 100%;
-      margin: 10px 0;
     }
   }
 `;

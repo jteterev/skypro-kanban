@@ -1,8 +1,9 @@
-import Calendar from '../../Calendar/Calendar';
+import { PopNewCardStyles } from "../../../styles/PopupStyles";
+import Calendar from "../../Calendar/Calendar";
 
 function PopNewCard() {
   return (
-    <div className="pop-new-card" id="popNewCard">
+    <PopNewCardStyles id="popNewCard">
       <div className="pop-new-card__container">
         <div className="pop-new-card__block">
           <div className="pop-new-card__content">
@@ -63,7 +64,7 @@ function PopNewCard() {
           </div>
         </div>
       </div>
-    </div>
+    </PopNewCardStyles>
   );
 }
 

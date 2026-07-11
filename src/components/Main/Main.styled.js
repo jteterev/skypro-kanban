@@ -10,6 +10,13 @@ export const Palette = {
 export const MainStyled = styled.main`
   width: 100%;
   background-color: ${Palette.lightGray};
+
+  .container {
+    max-width: 1260px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 30px;
+  }
 `;
 
 export const MainBlockStyled = styled.div`
@@ -18,6 +25,8 @@ export const MainBlockStyled = styled.div`
   padding: 25px 0 49px;
 
   @media screen and (max-width: 1200px) {
+    width: 100%;
+    margin: 0 auto;
     padding: 40px 0 64px;
   }
 
