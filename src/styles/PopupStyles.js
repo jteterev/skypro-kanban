@@ -178,278 +178,6 @@ export const PopNewCardStyles = styled.div`
     align-items: flex-start;
     justify-content: space-between;
   }
-
-  .pop-new-card__form {
-    max-width: 370px;
-    width: 100%;
-    display: block;
-    margin-bottom: 20px;
-  }
-
-  .form-new__block {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .form-new__input,
-  .form-new__area {
-    width: 100%;
-    outline: none;
-    padding: 14px;
-    background: transparent;
-    border: 0.7px solid rgba(148, 166, 190, 0.4);
-    border-radius: 8px;
-    font-size: 14px;
-    line-height: 1;
-    letter-spacing: -0.14px;
-
-    &::placeholder {
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 1px;
-      color: #94a6be;
-      letter-spacing: -0.14px;
-    }
-  }
-
-  .form-new__input {
-    margin: 20px 0;
-  }
-
-  .form-new__area {
-    max-width: 370px;
-    margin-top: 14px;
-    height: 200px;
-  }
-
-  .form-new__create {
-    width: 132px;
-    height: 30px;
-    background-color: #565eef;
-    border-radius: 4px;
-    border: 0;
-    outline: none;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1;
-    color: #ffffff;
-    float: right;
-  }
-
-  .subttl {
-    color: #000;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1;
-  }
-
-  .calendar {
-    width: 182px;
-    margin-bottom: 20px;
-
-    &__ttl {
-      margin-bottom: 14px;
-      padding: 0 7px;
-    }
-
-    &__p {
-      color: #94a6be;
-      font-size: 10px;
-      line-height: 1;
-
-      span {
-        color: #000000;
-      }
-    }
-
-    &__block {
-      display: block;
-    }
-
-    &__month {
-      color: #94a6be;
-      font-size: 14px;
-      line-height: 25px;
-      font-weight: 600;
-    }
-
-    &__content {
-      margin-bottom: 12px;
-    }
-
-    &__days-names {
-      display: flex;
-      flex-wrap: nowrap;
-      align-items: center;
-      justify-content: space-between;
-      margin: 7px 0;
-      padding: 0 7px;
-    }
-
-    &__day-name {
-      color: #94a6be;
-      font-size: 10px;
-      font-weight: 500;
-      line-height: normal;
-      letter-spacing: -0.2px;
-    }
-
-    &__cells {
-      width: 182px;
-      height: 126px;
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    &__cell {
-      width: 22px;
-      height: 22px;
-      margin: 2px;
-      border-radius: 50%;
-      display: flex;
-      flex-wrap: nowrap;
-      align-items: center;
-      justify-content: center;
-      color: #94a6be;
-      font-size: 10px;
-      line-height: 1;
-      letter-spacing: -0.2px;
-      cursor: pointer;
-    }
-
-    &__nav {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 14px;
-      padding: 0 7px;
-    }
-
-    &__period {
-      padding: 0 7px;
-    }
-  }
-
-  .nav__actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .nav__action {
-    width: 18px;
-    height: 25px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-      fill: #94a6be;
-    }
-  }
-
-  ._other-month {
-    opacity: 0;
-  }
-
-  ._cell-day:hover {
-    color: #94a6be;
-    background-color: #eaeef6;
-  }
-
-  ._active-day {
-    background-color: #94a6be;
-    color: #ffffff;
-  }
-
-  ._current {
-    font-weight: 700;
-  }
-
-  .categories {
-    margin-bottom: 20px;
-
-    &__themes {
-      display: flex;
-      flex-wrap: nowrap;
-      align-items: flex-start;
-      justify-content: flex-start;
-    }
-
-    &__p {
-      margin-bottom: 14px;
-    }
-
-    &__theme {
-      display: inline-block;
-      width: auto;
-      height: 30px;
-      padding: 8px 20px;
-      border-radius: 24px;
-      margin-right: 7px;
-      opacity: 0.4;
-
-      p {
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 14px;
-        white-space: nowrap;
-      }
-    }
-  }
-
-  @media screen and (max-width: 660px) {
-    top: 70px;
-
-    .pop-new-card__container {
-      padding: 0;
-      justify-content: flex-start;
-    }
-
-    .pop-new-card__block {
-      border-radius: 0;
-    }
-
-    .pop-new-card__wrap {
-      display: block;
-    }
-
-    .calendar {
-      max-width: 340px;
-      width: 100%;
-
-      &__ttl,
-      &__nav,
-      &__period {
-        padding: 0;
-      }
-    }
-
-    .calendar .date-create {
-      display: none;
-      margin-bottom: 7px;
-    }
-
-    .calendar__p {
-      font-size: 14px;
-    }
-
-    .calendar__day-name {
-      font-size: 14px;
-    }
-
-    .calendar__cells {
-      width: 344px;
-      height: auto;
-    }
-
-    .calendar__cell {
-      width: 26px;
-      height: 26px;
-    }
-  }
 `;
 
 export const PopBrowseStyles = styled.div`
@@ -507,6 +235,38 @@ export const PopBrowseStyles = styled.div`
     .theme-top {
       display: block;
     }
+
+    .status {
+      margin-bottom: 11px;
+
+      &__p {
+        margin-bottom: 14px;
+      }
+
+      &__themes {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+
+      &__theme {
+        border-radius: 24px;
+        border: 0.7px solid rgba(148, 166, 190, 0.4);
+        color: #94a6be;
+        padding: 11px 14px 10px;
+        margin-right: 7px;
+        margin-bottom: 7px;
+        display: inline-block;
+        flex-shrink: 0;
+
+        p {
+          font-size: 14px;
+          line-height: 1;
+          letter-spacing: -0.14px;
+        }
+      }
+    }
   }
 
   .pop-browse__top-block {
@@ -527,6 +287,131 @@ export const PopBrowseStyles = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+
+    .pop-new-card__calendar.calendar {
+      width: 182px;
+      margin-bottom: 20px;
+
+      .calendar__ttl {
+        margin-bottom: 14px;
+        padding: 0 7px;
+      }
+
+      .calendar__block {
+        display: block;
+      }
+
+      .calendar__month {
+        color: #94a6be;
+        font-size: 14px;
+        line-height: 25px;
+        font-weight: 600;
+      }
+
+      .calendar__content {
+        margin-bottom: 12px;
+      }
+
+      .calendar__days-names {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+        margin: 7px 0;
+        padding: 0 7px;
+      }
+
+      .calendar__day-name {
+        color: #94a6be;
+        font-size: 10px;
+        font-weight: 500;
+        line-height: normal;
+        letter-spacing: -0.2px;
+      }
+
+      .calendar__cells {
+        width: 182px;
+        height: 126px;
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .calendar__cell {
+        width: 22px;
+        height: 22px;
+        margin: 2px;
+        border-radius: 50%;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: center;
+        color: #94a6be;
+        font-size: 10px;
+        line-height: 1;
+        letter-spacing: -0.2px;
+        cursor: pointer;
+
+        &:hover {
+          color: #94a6be;
+          background-color: #eaeef6;
+        }
+
+        &._other-month {
+          opacity: 0;
+        }
+
+        &._active-day {
+          background-color: #94a6be;
+          color: #ffffff;
+        }
+
+        &._current {
+          font-weight: 700;
+        }
+      }
+
+      .calendar__nav {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 14px;
+        padding: 0 7px;
+      }
+
+      .calendar__period {
+        padding: 0 7px;
+      }
+
+      .calendar__p {
+        color: #94a6be;
+        font-size: 10px;
+        line-height: 1;
+
+        span {
+          color: #000000;
+        }
+      }
+
+      .nav__actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .nav__action {
+        width: 18px;
+        height: 25px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+          fill: #94a6be;
+        }
+      }
+    }
   }
 
   .pop-browse__form {
@@ -554,85 +439,7 @@ export const PopBrowseStyles = styled.div`
     }
   }
 
-  .form-browse__block {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .form-browse__area {
-    max-width: 370px;
-    width: 100%;
-    outline: none;
-    padding: 14px;
-    background: #eaeef6;
-    border: 0.7px solid rgba(148, 166, 190, 0.4);
-    border-radius: 8px;
-    font-size: 14px;
-    line-height: 1;
-    letter-spacing: -0.14px;
-    margin-top: 14px;
-    height: 200px;
-
-    &::placeholder {
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 1px;
-      color: #94a6be;
-      letter-spacing: -0.14px;
-    }
-  }
-
-  .status {
-    margin-bottom: 11px;
-
-    &__p {
-      margin-bottom: 14px;
-    }
-
-    &__themes {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: flex-start;
-    }
-
-    &__theme {
-      border-radius: 24px;
-      border: 0.7px solid rgba(148, 166, 190, 0.4);
-      color: #94a6be;
-      padding: 11px 14px 10px;
-      margin-right: 7px;
-      margin-bottom: 7px;
-
-      p {
-        font-size: 14px;
-        line-height: 1;
-        letter-spacing: -0.14px;
-      }
-    }
-  }
-
-  ._btn-bor {
-    border-radius: 4px;
-    border: 0.7px solid var(--palette-navy-60, #565eef);
-    outline: none;
-    background: transparent;
-    color: #565eef;
-
-    a {
-      color: #565eef;
-    }
-  }
-
-  ._btn-bg {
-    border-radius: 4px;
-    background: #565eef;
-    border: none;
-    outline: none;
-    color: #ffffff;
-
-    a {
-      color: #ffffff;
-    }
+  .pop-browse__btn-edit._hide {
+    display: none;
   }
 `;

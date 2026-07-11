@@ -122,27 +122,40 @@ export const GlobalStyles = createGlobalStyle`
     display: none;
   }
 
-  /* Media */
-  @media screen and (max-width: 1200px) {
-    .cards {
-      width: 100%;
-      display: flex;
-      overflow-y: auto;
+  /* Status */
+  .status {
+    margin-bottom: 11px;
 
-      .cards__card {
-        width: 220px;
-        height: 130px;
-        background-color: #ffffff;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: stretch;
-        padding: 15px 13px 19px;
+    &__p {
+      margin-bottom: 14px;
+    }
+
+    &__themes {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    &__theme {
+      border-radius: 24px;
+      border: 0.7px solid rgba(148, 166, 190, 0.4);
+      color: #94a6be;
+      padding: 11px 14px 10px;
+      margin-right: 7px;
+      margin-bottom: 7px;
+      display: inline-block;
+      flex-shrink: 0;
+
+      p {
+        font-size: 14px;
+        line-height: 1;
+        letter-spacing: -0.14px;
       }
     }
   }
 
+  /* Media */
   @media screen and (max-width: 660px) {
     .calendar {
       max-width: 340px;
