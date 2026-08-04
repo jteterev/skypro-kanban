@@ -1,11 +1,14 @@
 import { PopBrowseStyles } from "../../../styles/PopupStyles";
 
-function PopBrowse() {
+function PopBrowse({ isOpen, onClose }) {
   return (
-    <PopBrowseStyles id="popBrowse">
-      <div className="pop-browse__container">
-        <div className="pop-browse__block">
+    <PopBrowseStyles id="popBrowse" isOpen={isOpen}>
+      <div className="pop-browse__container" onClick={onClose}>
+        <div className="pop-browse__block" onClick={(e) => e.stopPropagation()}>
           <div className="pop-browse__content">
+            <a href="#" className="pop-browse__close" onClick={onClose}>
+              ✕
+            </a>
             <div className="pop-browse__top-block">
               <h3 className="pop-browse__ttl">Название задачи</h3>
               <div className="categories__theme theme-top _orange _active-category">
@@ -74,7 +77,7 @@ function PopBrowse() {
                           height="11"
                           viewBox="0 0 6 11"
                         >
-                          <path d="M0.27055 9.04727C-0.0901833 9.37959 -0.0901832 9.9167 0.27055 10.249C0.633779 10.5837 1.2246 10.5837 1.58783 10.249L5.47151 6.67117C6.17616 6.02201 6.17616 4.97799 5.47151 4.32883L1.58782 0.75097C1.2246 0.416344 0.633778 0.416344 0.270549 0.75097C-0.0901831 1.0833 -0.090184 1.62041 0.270549 1.95273L4.12103 5.5L0.27055 9.04727Z" />
+                          <path d="M0.27055 9.04727C-0.0901833 9.37959 -0.0901832 9.9167 0.27055 10.249C0.633779 10.5837 1.58783 10.249L5.47151 6.67117C6.17616 6.02201 6.17616 4.97799 5.47151 4.32883L1.58782 0.75097C1.2246 0.416344 0.633778 0.416344 0.270549 0.75097C-0.0901831 1.0833 -0.090184 1.62041 0.270549 1.95273L4.12103 5.5L0.27055 9.04727Z" />
                         </svg>
                       </div>
                     </div>
@@ -151,12 +154,6 @@ function PopBrowse() {
                     </p>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="theme-down__categories theme-down">
-              <p className="categories__p subttl">Категория</p>
-              <div className="categories__theme _orange _active-category">
-                <p className="_orange">Web Design</p>
               </div>
             </div>
             <div className="pop-browse__btn-browse ">

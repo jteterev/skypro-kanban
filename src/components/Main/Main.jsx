@@ -10,7 +10,7 @@ import {
   LoadingStyled,
 } from "./Main.styled";
 
-function Main() {
+function Main({ onOpenBrowse }) {
   const [isLoading, setIsLoading] = useState(true);
   const [cards, setCards] = useState([]);
 
@@ -54,7 +54,11 @@ function Main() {
               <MainColumnStyled key={column.key}>
                 <Column title={column.label}>
                   {getCardsByStatus(column.key).map((card) => (
-                    <Card key={card.id} card={card} />
+                    <Card
+                      key={card.id}
+                      card={card}
+                      onOpenBrowse={() => onOpenBrowse()}
+                    />
                   ))}
                 </Column>
               </MainColumnStyled>

@@ -9,7 +9,7 @@ import {
   HeaderUserStyled,
 } from "./Header.styled";
 
-function Header() {
+function Header({ onOpenNewCard }) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const toggleUserMenu = () => {
@@ -31,8 +31,8 @@ function Header() {
             </a>
           </HeaderLogoStyled>
           <HeaderNavStyled>
-            <HeaderBtnNewStyled id="btnMainNew">
-              <a href="#popNewCard">Создать новую задачу</a>
+            <HeaderBtnNewStyled id="btnMainNew" onClick={onOpenNewCard}>
+              <a>Создать новую задачу</a>
             </HeaderBtnNewStyled>
             <HeaderUserStyled onClick={toggleUserMenu}>
               Ivan Ivanov

@@ -155,6 +155,149 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
+  /* Form new card */
+  .form-new {
+    &__block {
+      margin-bottom: 20px;
+    }
+
+    &__input {
+      width: 100%;
+      max-width: 370px;
+      height: 40px;
+      padding: 10px 14px;
+      border: 0.7px solid #d4dbe5;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #000;
+      background: #f9f9f9;
+      outline: none;
+      transition: border-color 0.2s;
+
+      &:focus {
+        border-color: #565eef;
+        background: #fff;
+      }
+
+      &::placeholder {
+        color: #94a6be;
+      }
+    }
+
+    &__area {
+      width: 100%;
+      max-width: 370px;
+      min-height: 100px;
+      padding: 10px 14px;
+      border: 0.7px solid #d4dbe5;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #000;
+      background: #f9f9f9;
+      outline: none;
+      resize: vertical;
+      font-family: inherit;
+      transition: border-color 0.2s;
+
+      &:focus {
+        border-color: #565eef;
+        background: #fff;
+      }
+
+      &::placeholder {
+        color: #94a6be;
+      }
+    }
+  }
+
+  /* Categories */
+  .categories {
+    margin-bottom: 20px;
+
+    &__p {
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #000;
+    }
+
+    &__themes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    &__theme {
+      border-radius: 24px;
+      padding: 8px 18px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      display: inline-block;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      p {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1;
+      }
+    }
+  }
+
+  /* Button styles */
+  ._btn-bg {
+    background-color: #565eef;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    a {
+      color: #ffffff;
+    }
+  }
+
+  ._btn-bor {
+    background-color: transparent;
+    border: 0.7px solid #565eef;
+    color: #565eef;
+    border-radius: 4px;
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 30px;
+    height: 30px;
+    cursor: pointer;
+  }
+
+  .form-new {
+    &__create {
+      display: block;
+      width: 100%;
+      max-width: 630px;
+      margin: 0 auto;
+      height: 36px;
+      background-color: #565eef;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      line-height: 36px;
+      text-align: center;
+    }
+  }
+
   /* Media */
   @media screen and (max-width: 660px) {
     .calendar {

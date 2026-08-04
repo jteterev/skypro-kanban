@@ -1,15 +1,18 @@
 import { PopNewCardStyles } from "../../../styles/PopupStyles";
 import Calendar from "../../Calendar/Calendar";
 
-function PopNewCard() {
+function PopNewCard({ isOpen, onClose }) {
   return (
-    <PopNewCardStyles id="popNewCard">
-      <div className="pop-new-card__container">
-        <div className="pop-new-card__block">
+    <PopNewCardStyles id="popNewCard" isOpen={isOpen}>
+      <div className="pop-new-card__container" onClick={onClose}>
+        <div
+          className="pop-new-card__block"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="pop-new-card__content">
             <h3 className="pop-new-card__ttl">Создание задачи</h3>
-            <a href="#" className="pop-new-card__close">
-              &#10006;
+            <a href="#" className="pop-new-card__close" onClick={onClose}>
+              ✕
             </a>
             <div className="pop-new-card__wrap">
               <form

@@ -10,7 +10,7 @@ import {
   CardDateStyled,
 } from "./Card.styled";
 
-function Card({ card }) {
+function Card({ card, onOpenBrowse }) {
   return (
     <CardsItemStyled>
       <CardsCardStyled>
@@ -18,13 +18,11 @@ function Card({ card }) {
           <CardThemeStyled className={topicMap[card.topic] || "_gray"}>
             <p>{card.topic}</p>
           </CardThemeStyled>
-          <a href="#popBrowse" target="_self">
-            <CardBtnStyled>
-              <div></div>
-              <div></div>
-              <div></div>
-            </CardBtnStyled>
-          </a>
+          <CardBtnStyled onClick={onOpenBrowse}>
+            <div></div>
+            <div></div>
+            <div></div>
+          </CardBtnStyled>
         </CardGroupStyled>
         <CardContentStyled>
           <a href="" target="_blank">

@@ -110,19 +110,15 @@ export const PopExitStyles = styled.div`
 `;
 
 export const PopNewCardStyles = styled.div`
-  display: none;
+  display: ${(props) => (props.isOpen ? "block" : "none")};
   width: 100%;
   min-width: 375px;
   height: 100%;
   min-height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 6;
-
-  &:target {
-    display: block;
-  }
 
   .pop-new-card__container {
     width: 100%;
@@ -181,18 +177,27 @@ export const PopNewCardStyles = styled.div`
 `;
 
 export const PopBrowseStyles = styled.div`
-  display: none;
+  display: ${(props) => (props.isOpen ? "block" : "none")};
   width: 100%;
   height: 100%;
   min-width: 375px;
   min-height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 7;
 
-  &:target {
-    display: block;
+  .pop-browse__close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #94a6be;
+    font-size: 20px;
+    cursor: pointer;
+
+    &:hover {
+      color: #000000;
+    }
   }
 
   .pop-browse__container {
