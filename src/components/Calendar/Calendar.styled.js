@@ -10,6 +10,7 @@ export const Palette = {
 export const CalendarStyled = styled.div`
   width: 182px;
   margin-bottom: 20px;
+  flex-shrink: 0;
 `;
 
 export const CalendarTtlStyled = styled.p`

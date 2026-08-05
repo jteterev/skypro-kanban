@@ -17,11 +17,29 @@ import {
 
 function Calendar({ month = "Сентябрь 2023", activeDay = null }) {
   const daysNames = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
-  const days = [
-    28, 29, 30, 31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-    18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 1,
-  ];
-  const weekendIndices = [5, 6, 12, 13, 19, 20, 26, 27];
+  // Сентябрь 2023 начинается с пятницы (индекс 4)
+  const firstDayIndex = 4; // 0 = пн, 4 = пт
+  const daysInMonth = 30;
+  const days = [];
+  const weekendIndices = [];
+
+  // Пустые ячейки перед первым днём месяца
+  for (let i = 0; i < firstDayIndex; i++) {
+    days.push("");
+  }
+  // Дни месяца
+  for (let i = 1; i <= daysInMonth; i++) {
+    days.push(i);
+  }
+
+  // Определяем индексы выходных (сб = 5, вс = 6 относительно недели)
+  days.forEach((day, index) => {
+    if (day === "") return;
+    const dayOfWeek = index % 7;
+    if (dayOfWeek === 5 || dayOfWeek === 6) {
+      weekendIndices.push(index);
+    }
+  });
 
   return (
     <CalendarStyled>
@@ -66,11 +84,11 @@ function Calendar({ month = "Сентябрь 2023", activeDay = null }) {
           <CalendarCellsStyled>
             {days.map((day, index) => {
               let classes = "calendar__cell";
-              if (index < 3) {
+              if (day === "") {
                 classes += " _other-month";
               } else if (weekendIndices.includes(index)) {
                 classes += " _cell-day _weekend";
-              } else if (index === 11) {
+              } else if (day === 8) {
                 classes += " _cell-day _current";
               } else if (activeDay && day === activeDay) {
                 classes += " _cell-day _weekend _active-day";

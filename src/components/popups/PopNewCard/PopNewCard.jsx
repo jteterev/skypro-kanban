@@ -11,9 +11,6 @@ function PopNewCard({ isOpen, onClose }) {
         >
           <div className="pop-new-card__content">
             <h3 className="pop-new-card__ttl">Создание задачи</h3>
-            <a href="#" className="pop-new-card__close" onClick={onClose}>
-              ✕
-            </a>
             <div className="pop-new-card__wrap">
               <form
                 className="pop-new-card__form form-new"

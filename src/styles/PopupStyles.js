@@ -171,8 +171,30 @@ export const PopNewCardStyles = styled.div`
 
   .pop-new-card__wrap {
     display: flex;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: space-between;
+
+    .form-new {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin-right: 20px;
+      min-height: 300px;
+
+      .form-new__block {
+        display: flex;
+        flex-direction: column;
+
+        &:first-child {
+          margin-bottom: 20px;
+          flex: 0 0 auto;
+        }
+
+        &:last-child {
+          flex: 1;
+        }
+      }
+    }
   }
 `;
 
@@ -272,6 +294,16 @@ export const PopBrowseStyles = styled.div`
         }
       }
     }
+
+    .status__theme._gray {
+      background-color: #94a6be;
+      border: none;
+      color: #ffffff;
+
+      p {
+        color: #ffffff;
+      }
+    }
   }
 
   .pop-browse__top-block {
@@ -290,8 +322,17 @@ export const PopBrowseStyles = styled.div`
 
   .pop-browse__wrap {
     display: flex;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: space-between;
+
+    .subttl {
+      font-family: "Roboto", sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1;
+      letter-spacing: 0px;
+      margin-bottom: 14px;
+    }
 
     .pop-new-card__calendar.calendar {
       width: 182px;
@@ -304,6 +345,34 @@ export const PopBrowseStyles = styled.div`
 
       .calendar__block {
         display: block;
+
+        .calendar__nav {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 14px;
+          padding: 0 7px;
+
+          .nav__actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+
+          .nav__action {
+            width: 18px;
+            height: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+              fill: #94a6be;
+            }
+          }
+        }
       }
 
       .calendar__month {
@@ -375,46 +444,32 @@ export const PopBrowseStyles = styled.div`
         }
       }
 
-      .calendar__nav {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 14px;
-        padding: 0 7px;
-      }
-
       .calendar__period {
         padding: 0 7px;
       }
 
       .calendar__p {
         color: #94a6be;
-        font-size: 10px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 600;
+        font-size: 14px;
         line-height: 1;
+        letter-spacing: 0px;
 
         span {
           color: #000000;
+          font-family: "Roboto", sans-serif;
+          font-weight: 400;
+          font-size: 10px;
+          line-height: 1;
+          letter-spacing: 0px;
+          text-align: center;
+          vertical-align: middle;
         }
       }
 
-      .nav__actions {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .nav__action {
-        width: 18px;
-        height: 25px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        svg {
-          fill: #94a6be;
-        }
+      .calendar__period {
+        padding: 0 7px;
       }
     }
   }
@@ -422,8 +477,31 @@ export const PopBrowseStyles = styled.div`
   .pop-browse__form {
     max-width: 370px;
     width: 100%;
-    display: block;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 20px;
+
+    .form-browse__block {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .form-browse__area {
+      background-color: #eef1f8;
+      border-radius: 8px;
+      flex: 1;
+      padding: 16px;
+
+      .form-browse__placeholder {
+        color: #94a6be;
+        font-family: "Roboto", sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 1;
+        letter-spacing: 0px;
+      }
+    }
   }
 
   .pop-browse__btn-browse,
@@ -433,14 +511,9 @@ export const PopBrowseStyles = styled.div`
     align-items: flex-start;
     justify-content: space-between;
 
-    button {
-      height: 30px;
-      margin-bottom: 10px;
-      padding: 0 14px;
-
-      &.btn-group button {
-        margin-right: 8px;
-      }
+    .btn-group {
+      display: flex;
+      gap: 8px;
     }
   }
 

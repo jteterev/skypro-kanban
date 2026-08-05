@@ -1,11 +1,17 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+
   /* Reset */
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Roboto', sans-serif;
   }
 
   *:before,
@@ -69,10 +75,7 @@ export const GlobalStyles = createGlobalStyle`
   ._hover03:hover {
     background-color: #33399b;
     color: #ffffff;
-  }
-
-  ._hover03:hover a {
-    color: #ffffff;
+    border-color: #33399b;
   }
 
   /* Popup target display */
@@ -195,9 +198,10 @@ export const GlobalStyles = createGlobalStyle`
       color: #000;
       background: #f9f9f9;
       outline: none;
-      resize: vertical;
+      resize: none;
       font-family: inherit;
       transition: border-color 0.2s;
+      flex: 1;
 
       &:focus {
         border-color: #565eef;
@@ -259,10 +263,6 @@ export const GlobalStyles = createGlobalStyle`
     height: 30px;
     cursor: pointer;
     transition: background-color 0.2s;
-
-    a {
-      color: #ffffff;
-    }
   }
 
   ._btn-bor {
@@ -281,20 +281,22 @@ export const GlobalStyles = createGlobalStyle`
   .form-new {
     &__create {
       display: block;
-      width: 100%;
-      max-width: 630px;
-      margin: 0 auto;
-      height: 36px;
+      width: 132px;
+      height: 30px;
       background-color: #565eef;
       color: #ffffff;
       border: none;
-      border-radius: 6px;
+      border-radius: 4px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
       font-size: 14px;
-      font-weight: 600;
+      line-height: 10px;
+      letter-spacing: 0px;
+      text-align: center;
       cursor: pointer;
       transition: background-color 0.2s;
-      line-height: 36px;
-      text-align: center;
+      margin-left: auto;
+      padding: 10px 14px;
     }
   }
 
