@@ -1,19 +1,27 @@
+import {
+  PopUserSetStyled,
+  PopUserSetNameStyled,
+  PopUserSetMailStyled,
+  PopUserSetThemeStyled,
+  PopUserSetButtonStyled,
+} from "./PopUser.styled";
+
 function PopUser({ isOpen }) {
   return (
-    <div
-      className={`header__pop-user-set pop-user-set${isOpen ? " show" : ""}`}
+    <PopUserSetStyled
+      className={`${isOpen ? " show" : ""}`}
       id="user-set-target"
     >
-      <p className="pop-user-set__name">Ivan Ivanov</p>
-      <p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>
-      <div className="pop-user-set__theme">
+      <PopUserSetNameStyled>Ivan Ivanov</PopUserSetNameStyled>
+      <PopUserSetMailStyled>ivan.ivanov@gmail.com</PopUserSetMailStyled>
+      <PopUserSetThemeStyled>
         <p>Темная тема</p>
         <input type="checkbox" className="checkbox" name="checkbox" />
-      </div>
-      <button type="button" className="_hover03">
+      </PopUserSetThemeStyled>
+      <PopUserSetButtonStyled type="button" className="_hover03">
         <a href="#popExit">Выйти</a>
-      </button>
-    </div>
+      </PopUserSetButtonStyled>
+    </PopUserSetStyled>
   );
 }
 

@@ -1,7 +1,15 @@
 import { useState } from "react";
 import PopUser from "../popups/PopUser/PopUser";
+import {
+  HeaderStyled,
+  HeaderBlockStyled,
+  HeaderLogoStyled,
+  HeaderNavStyled,
+  HeaderBtnNewStyled,
+  HeaderUserStyled,
+} from "./Header.styled";
 
-function Header() {
+function Header({ onOpenNewCard }) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const toggleUserMenu = () => {
@@ -9,31 +17,31 @@ function Header() {
   };
 
   return (
-    <header className="header">
+    <HeaderStyled>
       <div className="container">
-        <div className="header__block">
-          <div className="header__logo _show _light">
+        <HeaderBlockStyled>
+          <HeaderLogoStyled className="_show _light">
             <a href="" target="_self">
               <img src="logo.png" alt="logo" />
             </a>
-          </div>
-          <div className="header__logo _dark">
+          </HeaderLogoStyled>
+          <HeaderLogoStyled className="_dark">
             <a href="" target="_self">
               <img src="logo_dark.png" alt="logo" />
             </a>
-          </div>
-          <nav className="header__nav">
-            <button className="header__btn-main-new _hover01" id="btnMainNew">
-              <a href="#popNewCard">Создать новую задачу</a>
-            </button>
-            <span className="header__user _hover02" onClick={toggleUserMenu}>
+          </HeaderLogoStyled>
+          <HeaderNavStyled>
+            <HeaderBtnNewStyled id="btnMainNew" onClick={onOpenNewCard}>
+              <a>Создать новую задачу</a>
+            </HeaderBtnNewStyled>
+            <HeaderUserStyled onClick={toggleUserMenu}>
               Ivan Ivanov
-            </span>
+            </HeaderUserStyled>
             <PopUser isOpen={isUserMenuOpen} />
-          </nav>
-        </div>
+          </HeaderNavStyled>
+        </HeaderBlockStyled>
       </div>
-    </header>
+    </HeaderStyled>
   );
 }
 

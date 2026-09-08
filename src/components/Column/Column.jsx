@@ -1,11 +1,13 @@
+import { ColumnStyles, ColumnTitleStyled, CardsStyled } from "./Column.styled";
+
 function Column({ title, children }) {
   return (
-    <div className="main__column">
-      <div className="column__title">
+    <ColumnStyles>
+      <ColumnTitleStyled>
         <p>{title}</p>
-      </div>
-      <div className="cards">{children}</div>
-    </div>
+      </ColumnTitleStyled>
+      <CardsStyled>{children}</CardsStyled>
+    </ColumnStyles>
   );
 }
 

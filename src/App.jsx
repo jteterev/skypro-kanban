@@ -1,15 +1,22 @@
-import './App.css';
-import Header from './components/Header/Header';
-import Main from './components/Main/Main';
-import PopNewCard from './components/popups/PopNewCard/PopNewCard';
-import PopBrowse from './components/popups/PopBrowse/PopBrowse';
+import { useState } from "react";
+import { GlobalStyles } from "./styles/GlobalStyles";
+import { PopExitStyles } from "./styles/PopupStyles";
+import { WrapperStyled } from "./App.styled";
+import Header from "./components/Header/Header";
+import Main from "./components/Main/Main";
+import PopNewCard from "./components/popups/PopNewCard/PopNewCard";
+import PopBrowse from "./components/popups/PopBrowse/PopBrowse";
 
 function App() {
+  const [isPopNewCardOpen, setIsPopNewCardOpen] = useState(false);
+  const [isPopBrowseOpen, setIsPopBrowseOpen] = useState(false);
+
   return (
-    <div className="wrapper">
+    <WrapperStyled>
+      <GlobalStyles />
       {/* pop-up start*/}
 
-      <div className="pop-exit" id="popExit">
+      <PopExitStyles id="popExit">
         <div className="pop-exit__container">
           <div className="pop-exit__block">
             <div className="pop-exit__ttl">
@@ -27,16 +34,22 @@ function App() {
             </form>
           </div>
         </div>
-      </div>
+      </PopExitStyles>
 
-      <PopNewCard />
-      <PopBrowse />
+      <PopNewCard
+        isOpen={isPopNewCardOpen}
+        onClose={() => setIsPopNewCardOpen(false)}
+      />
+      <PopBrowse
+        isOpen={isPopBrowseOpen}
+        onClose={() => setIsPopBrowseOpen(false)}
+      />
 
       {/* pop-up end*/}
 
-      <Header />
-      <Main />
-    </div>
+      <Header onOpenNewCard={() => setIsPopNewCardOpen(true)} />
+      <Main onOpenBrowse={() => setIsPopBrowseOpen(true)} />
+    </WrapperStyled>
   );
 }
 
