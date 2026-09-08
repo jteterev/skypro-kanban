@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   PopUserSetStyled,
   PopUserSetNameStyled,
@@ -19,7 +20,7 @@ function PopUser({ isOpen }) {
         <input type="checkbox" className="checkbox" name="checkbox" />
       </PopUserSetThemeStyled>
       <PopUserSetButtonStyled type="button" className="_hover03">
-        <a href="#popExit">Выйти</a>
+        <Link to="/exit">Выйти</Link>
       </PopUserSetButtonStyled>
     </PopUserSetStyled>
   );

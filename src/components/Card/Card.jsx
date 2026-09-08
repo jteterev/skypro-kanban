@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { topicMap } from "../../data";
 import {
   CardsItemStyled,
@@ -10,7 +11,7 @@ import {
   CardDateStyled,
 } from "./Card.styled";
 
-function Card({ card, onOpenBrowse }) {
+function Card({ card }) {
   return (
     <CardsItemStyled>
       <CardsCardStyled>
@@ -18,16 +19,16 @@ function Card({ card, onOpenBrowse }) {
           <CardThemeStyled className={topicMap[card.topic] || "_gray"}>
             <p>{card.topic}</p>
           </CardThemeStyled>
-          <CardBtnStyled onClick={onOpenBrowse}>
+          <CardBtnStyled as={Link} to={`/card/${card.id}`}>
             <div></div>
             <div></div>
             <div></div>
           </CardBtnStyled>
         </CardGroupStyled>
         <CardContentStyled>
-          <a href="" target="_blank">
+          <Link to={`/card/${card.id}`}>
             <CardTitleStyled>{card.title}</CardTitleStyled>
-          </a>
+          </Link>
           <CardDateStyled>
             <svg
               xmlns="http://www.w3.org/2000/svg"
