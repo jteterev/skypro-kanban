@@ -8,53 +8,31 @@ import CardPage from "../pages/CardPage";
 import ExitPage from "../pages/ExitPage";
 import NotFoundPage from "../pages/NotFoundPage";
 
-function AppRoutes({ isAuth, onLogin, onLogout }) {
+function AppRoutes({ isAuth, user, onLogin, onLogout }) {
   return (
     <Routes>
-      {/* Защищенные маршруты — доступны только при isAuth === true */}
+      {/* Доска — общий родительский маршрут, всегда остается на фоне.
+          Защита на родителе покрывает и все вложенные маршруты */}
       <Route
         path="/"
         element={
           <ProtectedRoute isAuth={isAuth}>
-            <HomePage />
+            <HomePage user={user} />
           </ProtectedRoute>
         }
-      />
-      <Route
-        path="/new-card"
-        element={
-          <ProtectedRoute isAuth={isAuth}>
-            <NewCardPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/card/:id"
-        element={
-          <ProtectedRoute isAuth={isAuth}>
-            <CardPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/exit"
-        element={
-          <ProtectedRoute isAuth={isAuth}>
-            <ExitPage onLogout={onLogout} />
-          </ProtectedRoute>
-        }
-      />
+      >
+        {/* Вложенные страницы рендерятся через <Outlet /> поверх доски */}
+        <Route path="new-card" element={<NewCardPage user={user} />} />
+        <Route path="card/:id" element={<CardPage user={user} />} />
+        <Route path="exit" element={<ExitPage onLogout={onLogout} />} />
+      </Route>
 
       {/* Страницы авторизации — авторизованного пользователя
           всегда пересылает на главную */}
       <Route
         path="/login"
         element={
-          isAuth ? (
-            <Navigate to="/" replace />
-          ) : (
-            <LoginPage onLogin={onLogin} />
-          )
+          isAuth ? <Navigate to="/" replace /> : <LoginPage onLogin={onLogin} />
         }
       />
       <Route

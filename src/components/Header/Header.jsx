@@ -10,7 +10,7 @@ import {
   HeaderUserStyled,
 } from "./Header.styled";
 
-function Header({ onOpenNewCard }) {
+function Header({ user }) {
   const navigate = useNavigate();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
@@ -20,7 +20,7 @@ function Header({ onOpenNewCard }) {
 
   const handleOpenNewCard = () => {
     setIsUserMenuOpen(false);
-    onOpenNewCard ? onOpenNewCard() : navigate("/new-card");
+    navigate("/new-card");
   };
 
   return (
@@ -29,12 +29,12 @@ function Header({ onOpenNewCard }) {
         <HeaderBlockStyled>
           <HeaderLogoStyled className="_show _light">
             <Link to="/">
-              <img src="logo.png" alt="logo" />
+              <img src="/logo.png" alt="logo" />
             </Link>
           </HeaderLogoStyled>
           <HeaderLogoStyled className="_dark">
             <Link to="/">
-              <img src="logo_dark.png" alt="logo" />
+              <img src="/logo_dark.png" alt="logo" />
             </Link>
           </HeaderLogoStyled>
           <HeaderNavStyled>
@@ -42,9 +42,9 @@ function Header({ onOpenNewCard }) {
               <a>Создать новую задачу</a>
             </HeaderBtnNewStyled>
             <HeaderUserStyled onClick={toggleUserMenu}>
-              Ivan Ivanov
+              {user ? user.name || user.login : ""}
             </HeaderUserStyled>
-            <PopUser isOpen={isUserMenuOpen} />
+            <PopUser user={user} isOpen={isUserMenuOpen} />
           </HeaderNavStyled>
         </HeaderBlockStyled>
       </div>

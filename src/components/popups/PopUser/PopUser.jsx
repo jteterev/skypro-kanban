@@ -7,14 +7,14 @@ import {
   PopUserSetButtonStyled,
 } from "./PopUser.styled";
 
-function PopUser({ isOpen }) {
+function PopUser({ user, isOpen }) {
   return (
     <PopUserSetStyled
       className={`${isOpen ? " show" : ""}`}
       id="user-set-target"
     >
-      <PopUserSetNameStyled>Ivan Ivanov</PopUserSetNameStyled>
-      <PopUserSetMailStyled>ivan.ivanov@gmail.com</PopUserSetMailStyled>
+      <PopUserSetNameStyled>{user ? user.name || user.login : ""}</PopUserSetNameStyled>
+      <PopUserSetMailStyled>{user ? user.login : ""}</PopUserSetMailStyled>
       <PopUserSetThemeStyled>
         <p>Темная тема</p>
         <input type="checkbox" className="checkbox" name="checkbox" />

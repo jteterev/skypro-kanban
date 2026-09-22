@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../services/auth";
 import {
   AuthContainerStyled,
   AuthModalStyled,
@@ -16,17 +17,18 @@ import {
 function RegisterPage({ onLogin }) {
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
     setError("");
   };
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const handleLoginChange = (e) => {
+    setLogin(e.target.value);
     setError("");
   };
 
@@ -35,17 +37,35 @@ function RegisterPage({ onLogin }) {
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name.trim() || !email.trim() || !password.trim()) {
+    // Валидация полей формы
+    if (!name.trim() || !login.trim() || !password.trim()) {
       setError("Заполните все поля");
       return;
     }
 
-    // Регистрация через UI: меняем isAuth и переходим на доску
-    onLogin();
-    navigate("/", { replace: true });
+    setIsSubmitting(true);
+    setError("");
+
+    try {
+      // Регистрация только через API
+      const data = await registerUser({
+        login: login.trim(),
+        name: name.trim(),
+        password: password.trim(),
+      });
+
+      // Успех: API возвращает пользователя с токеном — сразу входим
+      onLogin(data.user);
+      navigate("/", { replace: true });
+    } catch (err) {
+      // Ошибка: например, пользователь с таким логином уже существует
+      setError(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -63,14 +83,16 @@ function RegisterPage({ onLogin }) {
               placeholder="Имя"
               value={name}
               onChange={handleNameChange}
+              disabled={isSubmitting}
             />
             <AuthInputStyled
-              type="email"
+              type="text"
               name="login"
-              id="formRegEmail"
-              placeholder="Эл. почта"
-              value={email}
-              onChange={handleEmailChange}
+              id="formRegLogin"
+              placeholder="Логин"
+              value={login}
+              onChange={handleLoginChange}
+              disabled={isSubmitting}
             />
             <AuthInputStyled
               type="password"
@@ -79,19 +101,18 @@ function RegisterPage({ onLogin }) {
               placeholder="Пароль"
               value={password}
               onChange={handlePasswordChange}
+              disabled={isSubmitting}
             />
             {error && <p className="auth__error">{error}</p>}
             <AuthActionsStyled>
               <AuthFormGroupStyled>
-                <AuthButtonStyled type="submit" id="btnReg">
-                  Зарегистрироваться
+                <AuthButtonStyled type="submit" id="btnReg" disabled={isSubmitting}>
+                  {isSubmitting ? "Регистрируем..." : "Зарегистрироваться"}
                 </AuthButtonStyled>
               </AuthFormGroupStyled>
               <AuthFormGroupStyled>
-                <p>
-                  Уже есть аккаунт?{" "}
-                  <AuthLinkStyled to="/login">Войдите здесь</AuthLinkStyled>
-                </p>
+                <p>Уже есть аккаунт?</p>
+                <AuthLinkStyled to="/login">Войдите здесь</AuthLinkStyled>
               </AuthFormGroupStyled>
             </AuthActionsStyled>
           </AuthFormStyled>

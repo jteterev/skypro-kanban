@@ -9,9 +9,11 @@ const Palette = {
 };
 
 export const ExitPageStyled = styled.div`
-  width: 100%;
-  min-width: 320px;
-  min-height: 100vh;
+  // Вложенная страница — модальный оверлей поверх доски
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  overflow-y: auto;
 `;
 
 export const ExitContainerStyled = styled.div`

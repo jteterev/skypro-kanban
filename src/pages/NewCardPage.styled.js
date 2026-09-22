@@ -3,7 +3,6 @@ import styled from "styled-components";
 const Palette = {
   primary: "#565eef",
   gray: "#94a6be",
-  lightGray: "#eaeef6",
   white: "#ffffff",
   black: "#000000",
   border: "#d4dbe5",
@@ -11,15 +10,20 @@ const Palette = {
 };
 
 export const NewCardPageStyled = styled.main`
-  width: 100%;
-  background-color: ${Palette.lightGray};
-  min-height: calc(100vh - 70px);
+  // Вложенная страница — модальный оверлей поверх доски
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.4);
 `;
 
 export const ContainerStyled = styled.div`
   max-width: 1260px;
   width: 100%;
-  margin: 0 auto;
+  margin: auto;
   padding: 25px 30px 49px;
 `;
 

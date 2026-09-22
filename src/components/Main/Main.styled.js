@@ -66,3 +66,36 @@ export const LoadingStyled = styled.div`
   color: ${Palette.gray};
   letter-spacing: -0.14px;
 `;
+
+export const ErrorStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: 300px;
+
+  p {
+    font-size: 16px;
+    font-weight: 500;
+    color: #e4391c;
+    text-align: center;
+  }
+`;
+
+export const ErrorButtonStyled = styled.button`
+  height: 40px;
+  padding: 0 24px;
+  background-color: #565eef;
+  color: ${Palette.white};
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #33399b;
+  }
+`;

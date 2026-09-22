@@ -4,22 +4,26 @@ const Palette = {
   primary: "#565eef",
   primaryHover: "#33399b",
   gray: "#94a6be",
-  lightGray: "#eaeef6",
   white: "#ffffff",
   black: "#000000",
   border: "#d4dbe5",
 };
 
 export const CardPageStyled = styled.main`
-  width: 100%;
-  background-color: ${Palette.lightGray};
-  min-height: calc(100vh - 70px);
+  // Вложенная страница — модальный оверлей поверх доски
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.4);
 `;
 
 export const ContainerStyled = styled.div`
   max-width: 1260px;
   width: 100%;
-  margin: 0 auto;
+  margin: auto;
   padding: 25px 30px 49px;
 `;
 
@@ -174,6 +178,21 @@ export const CardFormStyled = styled.div`
     flex-direction: column;
     flex: 1;
   }
+
+  .form-browse__date {
+    margin-top: 16px;
+
+    &-value {
+      font-size: 14px;
+      color: ${Palette.black};
+    }
+  }
+
+  .card__save-error {
+    color: #e4391c;
+    font-size: 13px;
+    line-height: 20px;
+  }
 `;
 
 export const CardAreaViewStyled = styled.div`
@@ -264,4 +283,17 @@ export const CardCloseButtonStyled = styled.button`
   &:hover {
     background-color: ${Palette.primaryHover};
   }
+`;
+
+export const CardErrorStyled = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+`;
+
+export const CardSaveErrorStyled = styled.p`
+  color: #e4391c;
+  font-size: 13px;
+  line-height: 20px;
+  margin-top: 12px;
 `;
