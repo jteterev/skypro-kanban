@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import { topicMap } from "../../data";
+import { formatDate } from "../../utils/formatDate";
 import {
   CardsItemStyled,
   CardsCardStyled,
@@ -10,7 +12,10 @@ import {
   CardDateStyled,
 } from "./Card.styled";
 
-function Card({ card, onOpenBrowse }) {
+function Card({ card }) {
+  // API может вернуть id в поле _id или id — берем то, что есть
+  const cardId = card.id ?? card._id;
+
   return (
     <CardsItemStyled>
       <CardsCardStyled>
@@ -18,16 +23,16 @@ function Card({ card, onOpenBrowse }) {
           <CardThemeStyled className={topicMap[card.topic] || "_gray"}>
             <p>{card.topic}</p>
           </CardThemeStyled>
-          <CardBtnStyled onClick={onOpenBrowse}>
+          <CardBtnStyled as={Link} to={`/card/${cardId}`}>
             <div></div>
             <div></div>
             <div></div>
           </CardBtnStyled>
         </CardGroupStyled>
         <CardContentStyled>
-          <a href="" target="_blank">
+          <Link to={`/card/${cardId}`}>
             <CardTitleStyled>{card.title}</CardTitleStyled>
-          </a>
+          </Link>
           <CardDateStyled>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +62,7 @@ function Card({ card, onOpenBrowse }) {
                 </clipPath>
               </defs>
             </svg>
-            <p>{card.date}</p>
+            <p>{formatDate(card.date)}</p>
           </CardDateStyled>
         </CardContentStyled>
       </CardsCardStyled>

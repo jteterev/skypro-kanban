@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import PopUser from "../popups/PopUser/PopUser";
 import {
   HeaderStyled,
@@ -9,11 +10,17 @@ import {
   HeaderUserStyled,
 } from "./Header.styled";
 
-function Header({ onOpenNewCard }) {
+function Header({ user }) {
+  const navigate = useNavigate();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const toggleUserMenu = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
+  };
+
+  const handleOpenNewCard = () => {
+    setIsUserMenuOpen(false);
+    navigate("/new-card");
   };
 
   return (
@@ -21,23 +28,23 @@ function Header({ onOpenNewCard }) {
       <div className="container">
         <HeaderBlockStyled>
           <HeaderLogoStyled className="_show _light">
-            <a href="" target="_self">
-              <img src="logo.png" alt="logo" />
-            </a>
+            <Link to="/">
+              <img src="/logo.png" alt="logo" />
+            </Link>
           </HeaderLogoStyled>
           <HeaderLogoStyled className="_dark">
-            <a href="" target="_self">
-              <img src="logo_dark.png" alt="logo" />
-            </a>
+            <Link to="/">
+              <img src="/logo_dark.png" alt="logo" />
+            </Link>
           </HeaderLogoStyled>
           <HeaderNavStyled>
-            <HeaderBtnNewStyled id="btnMainNew" onClick={onOpenNewCard}>
+            <HeaderBtnNewStyled id="btnMainNew" onClick={handleOpenNewCard}>
               <a>Создать новую задачу</a>
             </HeaderBtnNewStyled>
             <HeaderUserStyled onClick={toggleUserMenu}>
-              Ivan Ivanov
+              {user ? user.name || user.login : ""}
             </HeaderUserStyled>
-            <PopUser isOpen={isUserMenuOpen} />
+            <PopUser user={user} isOpen={isUserMenuOpen} />
           </HeaderNavStyled>
         </HeaderBlockStyled>
       </div>
