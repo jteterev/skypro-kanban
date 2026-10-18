@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 import { registerUser } from "../services/auth";
 import {
   AuthContainerStyled,
@@ -14,8 +15,9 @@ import {
   AuthLinkStyled,
 } from "./RegisterPage.styled";
 
-function RegisterPage({ onLogin }) {
+function RegisterPage() {
   const navigate = useNavigate();
+  const { login: authLogin } = useContext(AuthContext);
   const [name, setName] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -58,7 +60,7 @@ function RegisterPage({ onLogin }) {
       });
 
       // Успех: API возвращает пользователя с токеном — сразу входим
-      onLogin(data.user);
+      authLogin(data.user);
       navigate("/", { replace: true });
     } catch (err) {
       // Ошибка: например, пользователь с таким логином уже существует
@@ -106,7 +108,11 @@ function RegisterPage({ onLogin }) {
             {error && <p className="auth__error">{error}</p>}
             <AuthActionsStyled>
               <AuthFormGroupStyled>
-                <AuthButtonStyled type="submit" id="btnReg" disabled={isSubmitting}>
+                <AuthButtonStyled
+                  type="submit"
+                  id="btnReg"
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? "Регистрируем..." : "Зарегистрироваться"}
                 </AuthButtonStyled>
               </AuthFormGroupStyled>

@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
@@ -8,7 +10,9 @@ import CardPage from "../pages/CardPage";
 import ExitPage from "../pages/ExitPage";
 import NotFoundPage from "../pages/NotFoundPage";
 
-function AppRoutes({ isAuth, user, onLogin, onLogout }) {
+function AppRoutes() {
+  const { isAuth } = useContext(AuthContext);
+
   return (
     <Routes>
       {/* Доска — общий родительский маршрут, всегда остается на фоне.
@@ -16,34 +20,26 @@ function AppRoutes({ isAuth, user, onLogin, onLogout }) {
       <Route
         path="/"
         element={
-          <ProtectedRoute isAuth={isAuth}>
-            <HomePage user={user} />
+          <ProtectedRoute>
+            <HomePage />
           </ProtectedRoute>
         }
       >
         {/* Вложенные страницы рендерятся через <Outlet /> поверх доски */}
-        <Route path="new-card" element={<NewCardPage user={user} />} />
-        <Route path="card/:id" element={<CardPage user={user} />} />
-        <Route path="exit" element={<ExitPage onLogout={onLogout} />} />
+        <Route path="new-card" element={<NewCardPage />} />
+        <Route path="card/:id" element={<CardPage />} />
+        <Route path="exit" element={<ExitPage />} />
       </Route>
 
       {/* Страницы авторизации — авторизованного пользователя
           всегда пересылает на главную */}
       <Route
         path="/login"
-        element={
-          isAuth ? <Navigate to="/" replace /> : <LoginPage onLogin={onLogin} />
-        }
+        element={isAuth ? <Navigate to="/" replace /> : <LoginPage />}
       />
       <Route
         path="/register"
-        element={
-          isAuth ? (
-            <Navigate to="/" replace />
-          ) : (
-            <RegisterPage onLogin={onLogin} />
-          )
-        }
+        element={isAuth ? <Navigate to="/" replace /> : <RegisterPage />}
       />
 
       {/* Любой неизвестный маршрут ведет на 404 */}

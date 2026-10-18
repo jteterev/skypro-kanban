@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 import PopUser from "../popups/PopUser/PopUser";
 import {
   HeaderStyled,
@@ -10,7 +11,8 @@ import {
   HeaderUserStyled,
 } from "./Header.styled";
 
-function Header({ user }) {
+function Header() {
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
@@ -44,7 +46,7 @@ function Header({ user }) {
             <HeaderUserStyled onClick={toggleUserMenu}>
               {user ? user.name || user.login : ""}
             </HeaderUserStyled>
-            <PopUser user={user} isOpen={isUserMenuOpen} />
+            <PopUser isOpen={isUserMenuOpen} />
           </HeaderNavStyled>
         </HeaderBlockStyled>
       </div>

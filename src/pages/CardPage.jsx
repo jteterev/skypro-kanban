@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams, useOutletContext } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
+import { TaskContext } from "../contexts/TaskContext";
 import Calendar from "../components/Calendar/Calendar";
 import { topicMap } from "../data";
-import { getTaskById, editTask, deleteTask } from "../services/tasks";
+import { getTaskById } from "../services/tasks";
 import { formatDate } from "../utils/formatDate";
 import {
   CardPageStyled,
@@ -37,12 +39,12 @@ const statuses = [
 
 // Страница просмотра и редактирования задачи — вложенный маршрут
 // поверх доски, данные с API
-function CardPage({ user }) {
+function CardPage() {
   const navigate = useNavigate();
   const { id } = useParams();
-  // refreshTasks приходит от HomePage (родительского маршрута) через
-  // Outlet context — заставляет доску перезагрузить задачи
-  const { refreshTasks } = useOutletContext();
+  const { user } = useContext(AuthContext);
+  // editTask / deleteTask из контекста задач обновляют общий список задач
+  const { editTask, deleteTask } = useContext(TaskContext);
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -127,7 +129,6 @@ function CardPage({ user }) {
       });
 
       setIsEditing(false);
-      refreshTasks();
       navigate("/");
     } catch (err) {
       setSaveError(err.message);
@@ -142,7 +143,6 @@ function CardPage({ user }) {
 
     try {
       await deleteTask(user.token, id);
-      refreshTasks();
       navigate("/");
     } catch (err) {
       setSaveError(err.message);

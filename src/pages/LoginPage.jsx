@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 import { loginUser } from "../services/auth";
 import {
   AuthContainerStyled,
@@ -14,8 +15,9 @@ import {
   AuthLinkStyled,
 } from "./LoginPage.styled";
 
-function LoginPage({ onLogin }) {
+function LoginPage() {
   const navigate = useNavigate();
+  const { login: authLogin } = useContext(AuthContext);
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -51,7 +53,7 @@ function LoginPage({ onLogin }) {
       });
 
       // Успех: сохраняем пользователя с токеном и переходим на доску
-      onLogin(data.user);
+      authLogin(data.user);
       navigate("/", { replace: true });
     } catch (err) {
       // Ошибка: показываем сообщение пользователю
@@ -90,7 +92,11 @@ function LoginPage({ onLogin }) {
             {error && <p className="auth__error">{error}</p>}
             <AuthActionsStyled>
               <AuthFormGroupStyled>
-                <AuthButtonStyled type="submit" id="btnLogin" disabled={isSubmitting}>
+                <AuthButtonStyled
+                  type="submit"
+                  id="btnLogin"
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? "Входим..." : "Войти"}
                 </AuthButtonStyled>
               </AuthFormGroupStyled>

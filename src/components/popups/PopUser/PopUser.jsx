@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../contexts/AuthContext";
 import {
   PopUserSetStyled,
   PopUserSetNameStyled,
@@ -7,13 +9,17 @@ import {
   PopUserSetButtonStyled,
 } from "./PopUser.styled";
 
-function PopUser({ user, isOpen }) {
+function PopUser({ isOpen }) {
+  const { user } = useContext(AuthContext);
+
   return (
     <PopUserSetStyled
       className={`${isOpen ? " show" : ""}`}
       id="user-set-target"
     >
-      <PopUserSetNameStyled>{user ? user.name || user.login : ""}</PopUserSetNameStyled>
+      <PopUserSetNameStyled>
+        {user ? user.name || user.login : ""}
+      </PopUserSetNameStyled>
       <PopUserSetMailStyled>{user ? user.login : ""}</PopUserSetMailStyled>
       <PopUserSetThemeStyled>
         <p>Темная тема</p>
