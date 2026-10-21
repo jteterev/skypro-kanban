@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import { getTasks } from "../../services/tasks";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { TaskContext } from "../../contexts/TaskContext";
 import Column from "../Column/Column";
 import Card from "../Card/Card";
 import {
@@ -12,56 +13,19 @@ import {
   ErrorButtonStyled,
 } from "./Main.styled";
 
-// refreshKey меняется, когда дочерние страницы (создание/редактирование/
-// удаление задачи) просят доску перезагрузить список задач
-function Main({ user, refreshKey }) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [cards, setCards] = useState([]);
-  const [error, setError] = useState("");
+function Main() {
+  const { user } = useContext(AuthContext);
+  // Задачи и состояние загрузки приходят из контекста задач
+  const { tasks, isLoading, error, getTasks } = useContext(TaskContext);
 
-  // Задачи приходят только с сервера
+  // Задачи приходят только с сервера — загружаем один раз при монтировании
   useEffect(() => {
-    let cancelled = false;
-
-    getTasks(user.token)
-      .then((data) => {
-        if (!cancelled) {
-          setCards(data.tasks || []);
-        }
-      })
-      .catch((err) => {
-        if (!cancelled) {
-          setError(err.message);
-        }
-      })
-      .finally(() => {
-        if (!cancelled) {
-          setIsLoading(false);
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshKey]);
+    getTasks(user.token);
+  }, [getTasks, user.token]);
 
   // Повторная загрузка после ошибки
   const handleRetry = () => {
-    setIsLoading(true);
-    setError("");
-
-    getTasks(user.token)
-      .then((data) => {
-        setCards(data.tasks || []);
-        setError("");
-      })
-      .catch((err) => {
-        setError(err.message);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    getTasks(user.token);
   };
 
   const statusColumns = [
@@ -73,7 +37,7 @@ function Main({ user, refreshKey }) {
   ];
 
   const getCardsByStatus = (status) => {
-    return cards.filter((card) => card.status === status);
+    return tasks.filter((card) => card.status === status);
   };
 
   if (isLoading) {

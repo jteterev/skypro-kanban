@@ -1,41 +1,23 @@
-import { useState } from "react";
 import { GlobalStyles } from "./styles/GlobalStyles";
 import { WrapperStyled } from "./App.styled";
+import { AuthContext, useAuthProvider } from "./contexts/AuthContext";
+import { TaskContext, useTaskProvider } from "./contexts/TaskContext";
 import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  // Данные пользователя (с Bearer-токеном) приходят только из API.
-  // Токен сохраняется в localStorage, чтобы не терять вход после
-  // перезагрузки страницы. Смена состояния происходит через useState.
-  const [user, setUser] = useState(() => {
-    try {
-      const saved = localStorage.getItem("user");
-      return saved ? JSON.parse(saved) : null;
-    } catch {
-      return null;
-    }
-  });
-
-  const handleLogin = (userData) => {
-    localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    setUser(null);
-  };
+  // Значения контекстов авторизации и задач
+  const auth = useAuthProvider();
+  const tasks = useTaskProvider();
 
   return (
-    <WrapperStyled>
-      <GlobalStyles />
-      <AppRoutes
-        isAuth={Boolean(user)}
-        user={user}
-        onLogin={handleLogin}
-        onLogout={handleLogout}
-      />
-    </WrapperStyled>
+    <AuthContext.Provider value={auth}>
+      <TaskContext.Provider value={tasks}>
+        <WrapperStyled>
+          <GlobalStyles />
+          <AppRoutes />
+        </WrapperStyled>
+      </TaskContext.Provider>
+    </AuthContext.Provider>
   );
 }
 

@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
+import { TaskContext } from "../contexts/TaskContext";
 import Calendar from "../components/Calendar/Calendar";
 import { topicMap } from "../data";
-import { addTask } from "../services/tasks";
 import {
   NewCardPageStyled,
   ContainerStyled,
@@ -20,11 +21,11 @@ import {
 const topics = ["Web Design", "Research", "Development", "Testing"];
 
 // Страница добавления новой задачи — вложенный маршрут поверх доски
-function NewCardPage({ user }) {
+function NewCardPage() {
   const navigate = useNavigate();
-  // refreshTasks приходит от HomePage (родительского маршрута) через
-  // Outlet context — заставляет доску перезагрузить задачи
-  const { refreshTasks } = useOutletContext();
+  const { user } = useContext(AuthContext);
+  // addTask из контекста задач обновляет общий список задач
+  const { addTask } = useContext(TaskContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [topic, setTopic] = useState(topics[0]);
@@ -66,8 +67,7 @@ function NewCardPage({ user }) {
         date: new Date().toISOString(),
       });
 
-      // Успех: просим доску обновить список и возвращаемся на нее
-      refreshTasks();
+      // Успех: контекст задач уже обновил список — возвращаемся на доску
       navigate("/");
     } catch (err) {
       setError(err.message);

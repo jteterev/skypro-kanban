@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 import {
   ExitPageStyled,
   ExitContainerStyled,
@@ -11,12 +13,13 @@ import {
 } from "./ExitPage.styled";
 
 // Модальное окно выхода из аккаунта
-function ExitPage({ onLogout }) {
+function ExitPage() {
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
 
   const handleExitYes = () => {
     // Выход через UI: сбрасываем isAuth и переходим на страницу входа
-    onLogout();
+    logout();
     navigate("/login", { replace: true });
   };
 
