@@ -5,7 +5,6 @@ import { TaskContext, useTaskProvider } from "./contexts/TaskContext";
 import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  // Значения контекстов авторизации и задач
   const auth = useAuthProvider();
   const tasks = useTaskProvider();
 

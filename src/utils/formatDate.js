@@ -1,4 +1,3 @@
-// Форматирование ISO-даты из API в формат дд.мм.гг
 export function formatDate(isoDate) {
   if (!isoDate) return "";
 

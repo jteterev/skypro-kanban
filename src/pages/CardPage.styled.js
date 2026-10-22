@@ -1,13 +1,5 @@
-import styled from "styled-components";
-
-const Palette = {
-  primary: "#565eef",
-  primaryHover: "#33399b",
-  gray: "#94a6be",
-  white: "#ffffff",
-  black: "#000000",
-  border: "#d4dbe5",
-};
+﻿import styled from "styled-components";
+import { Palette } from "../styles/palette";
 
 export const CardPageStyled = styled.main`
   // Вложенная страница — модальный оверлей поверх доски
@@ -17,7 +9,7 @@ export const CardPageStyled = styled.main`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  background: rgba(0, 0, 0, 0.4);
+  background: ${Palette.overlay};
 `;
 
 export const ContainerStyled = styled.div`
@@ -36,8 +28,12 @@ export const CardBlockStyled = styled.div`
   padding: 40px 30px 38px;
   border-radius: 10px;
   border: 0.7px solid ${Palette.border};
-  box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
+  box-shadow: ${Palette.cardShadow};
   text-align: left;
+
+  @media screen and (max-width: 495px) {
+    padding: 24px 16px 28px;
+  }
 `;
 
 export const CardIdStyled = styled.p`
@@ -73,7 +69,7 @@ export const CardTitleInputStyled = styled.input`
   font-size: 16px;
   font-weight: 600;
   color: ${Palette.black};
-  background: #f9f9f9;
+  background: ${Palette.inputBg};
   outline: none;
   transition: border-color 0.2s;
 
@@ -114,7 +110,7 @@ export const CardStatusStyled = styled.div`
 
 export const CardStatusThemeStyled = styled.div`
   border-radius: 24px;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
+  border: 0.7px solid ${Palette.borderGray};
   color: ${Palette.gray};
   padding: 11px 14px 10px;
   margin-right: 7px;
@@ -187,16 +183,10 @@ export const CardFormStyled = styled.div`
       color: ${Palette.black};
     }
   }
-
-  .card__save-error {
-    color: #e4391c;
-    font-size: 13px;
-    line-height: 20px;
-  }
 `;
 
 export const CardAreaViewStyled = styled.div`
-  background-color: #eef1f8;
+  background-color: ${Palette.areaBg};
   border-radius: 8px;
   flex: 1;
   padding: 16px;
@@ -216,7 +206,7 @@ export const CardAreaStyled = styled.textarea`
   border-radius: 8px;
   font-size: 14px;
   color: ${Palette.black};
-  background: #f9f9f9;
+  background: ${Palette.inputBg};
   outline: none;
   resize: none;
   font-family: inherit;
@@ -245,8 +235,6 @@ export const CardBtnBrowseStyled = styled.div`
   }
 `;
 
-export const CardBtnEditStyled = styled(CardBtnBrowseStyled)``;
-
 export const CardButtonStyled = styled.button`
   background-color: transparent;
   border: 0.7px solid ${Palette.primary};
@@ -260,10 +248,15 @@ export const CardButtonStyled = styled.button`
   cursor: pointer;
   transition: all 0.2s;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: ${Palette.primaryHover};
     color: ${Palette.white};
     border-color: ${Palette.primaryHover};
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 `;
 
@@ -280,8 +273,13 @@ export const CardCloseButtonStyled = styled.button`
   cursor: pointer;
   transition: background-color 0.2s;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: ${Palette.primaryHover};
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 `;
 
@@ -292,7 +290,7 @@ export const CardErrorStyled = styled.div`
 `;
 
 export const CardSaveErrorStyled = styled.p`
-  color: #e4391c;
+  color: ${Palette.red};
   font-size: 13px;
   line-height: 20px;
   margin-top: 12px;

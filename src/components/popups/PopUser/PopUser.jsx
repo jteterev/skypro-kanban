@@ -1,32 +1,23 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import {
   PopUserSetStyled,
   PopUserSetNameStyled,
   PopUserSetMailStyled,
-  PopUserSetThemeStyled,
   PopUserSetButtonStyled,
 } from "./PopUser.styled";
 
-function PopUser({ isOpen }) {
+function PopUser({ isOpen, onClose }) {
   const { user } = useContext(AuthContext);
 
   return (
-    <PopUserSetStyled
-      className={`${isOpen ? " show" : ""}`}
-      id="user-set-target"
-    >
+    <PopUserSetStyled $isOpen={isOpen} id="user-set-target">
       <PopUserSetNameStyled>
         {user ? user.name || user.login : ""}
       </PopUserSetNameStyled>
       <PopUserSetMailStyled>{user ? user.login : ""}</PopUserSetMailStyled>
-      <PopUserSetThemeStyled>
-        <p>Темная тема</p>
-        <input type="checkbox" className="checkbox" name="checkbox" />
-      </PopUserSetThemeStyled>
-      <PopUserSetButtonStyled type="button" className="_hover03">
-        <Link to="/exit">Выйти</Link>
+      <PopUserSetButtonStyled to="/exit" onClick={onClose}>
+        Выйти
       </PopUserSetButtonStyled>
     </PopUserSetStyled>
   );

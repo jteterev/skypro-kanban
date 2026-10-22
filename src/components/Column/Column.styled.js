@@ -1,14 +1,15 @@
 import styled from "styled-components";
+import { Palette } from "../../styles/palette";
 
 export const ColumnStyles = styled.div`
-  width: 20%;
-  margin: 0 10px;
-  display: block;
+  flex: 1 1 20%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 
   @media screen and (max-width: 1200px) {
     width: 100%;
     margin: 0 auto;
-    display: block;
   }
 `;
 
@@ -17,7 +18,7 @@ export const ColumnTitleStyled = styled.div`
   margin: 15px 0;
 
   p {
-    color: ${({ theme }) => theme.gray};
+    color: ${Palette.gray};
     font-size: 14px;
     font-weight: 600;
     line-height: 1;
@@ -27,11 +28,12 @@ export const ColumnTitleStyled = styled.div`
 
 export const CardsStyled = styled.div`
   width: 100%;
-  display: block;
+  display: flex;
+  flex-direction: column;
   position: relative;
 
   @media screen and (max-width: 1200px) {
-    display: flex;
-    overflow-y: auto;
+    flex-direction: row;
+    overflow-x: auto;
   }
 `;

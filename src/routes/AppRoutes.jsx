@@ -15,8 +15,6 @@ function AppRoutes() {
 
   return (
     <Routes>
-      {/* Доска — общий родительский маршрут, всегда остается на фоне.
-          Защита на родителе покрывает и все вложенные маршруты */}
       <Route
         path="/"
         element={
@@ -25,14 +23,11 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       >
-        {/* Вложенные страницы рендерятся через <Outlet /> поверх доски */}
         <Route path="new-card" element={<NewCardPage />} />
         <Route path="card/:id" element={<CardPage />} />
         <Route path="exit" element={<ExitPage />} />
       </Route>
 
-      {/* Страницы авторизации — авторизованного пользователя
-          всегда пересылает на главную */}
       <Route
         path="/login"
         element={isAuth ? <Navigate to="/" replace /> : <LoginPage />}
@@ -42,7 +37,6 @@ function AppRoutes() {
         element={isAuth ? <Navigate to="/" replace /> : <RegisterPage />}
       />
 
-      {/* Любой неизвестный маршрут ведет на 404 */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

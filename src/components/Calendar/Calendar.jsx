@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   CalendarStyled,
   CalendarTtlStyled,
@@ -9,46 +10,80 @@ import {
   CalendarDayNameStyled,
   CalendarCellsStyled,
   CalendarCellStyled,
+  CalendarEmptyCellStyled,
   CalendarPeriodStyled,
   CalendarPStyled,
   NavActionsStyled,
   NavActionStyled,
 } from "./Calendar.styled";
 
-function Calendar({ month = "Сентябрь 2023", activeDay = null }) {
-  const daysNames = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
-  // Сентябрь 2023 начинается с пятницы (индекс 4)
-  const firstDayIndex = 4; // 0 = пн, 4 = пт
-  const daysInMonth = 30;
-  const days = [];
-  const weekendIndices = [];
+const months = [
+  "Январь",
+  "Февраль",
+  "Март",
+  "Апрель",
+  "Май",
+  "Июнь",
+  "Июль",
+  "Август",
+  "Сентябрь",
+  "Октябрь",
+  "Ноябрь",
+  "Декабрь",
+];
 
-  // Пустые ячейки перед первым днём месяца
-  for (let i = 0; i < firstDayIndex; i++) {
-    days.push("");
-  }
-  // Дни месяца
-  for (let i = 1; i <= daysInMonth; i++) {
-    days.push(i);
-  }
+const daysNames = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
 
-  // Определяем индексы выходных (сб = 5, вс = 6 относительно недели)
-  days.forEach((day, index) => {
-    if (day === "") return;
-    const dayOfWeek = index % 7;
-    if (dayOfWeek === 5 || dayOfWeek === 6) {
-      weekendIndices.push(index);
-    }
+const parseDate = (value) => {
+  if (!value) return null;
+
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+};
+
+const isSameDay = (first, second) =>
+  Boolean(first) &&
+  Boolean(second) &&
+  first.getFullYear() === second.getFullYear() &&
+  first.getMonth() === second.getMonth() &&
+  first.getDate() === second.getDate();
+
+function Calendar({ value, onChange }) {
+  const selectedDate = parseDate(value);
+  const [viewDate, setViewDate] = useState(() => {
+    const base = selectedDate || new Date();
+    return new Date(base.getFullYear(), base.getMonth(), 1);
   });
+
+  const year = viewDate.getFullYear();
+  const month = viewDate.getMonth();
+  const firstDayIndex = (new Date(year, month, 1).getDay() + 6) % 7;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
+
+  const changeMonth = (delta) => {
+    setViewDate(new Date(year, month + delta, 1));
+  };
+
+  const handleSelect = (day) => {
+    if (!onChange) return;
+    onChange(new Date(year, month, day, 12).toISOString());
+  };
 
   return (
     <CalendarStyled>
       <CalendarTtlStyled className="subttl">Даты</CalendarTtlStyled>
       <CalendarBlockStyled>
         <CalendarNavStyled>
-          <CalendarMonthStyled>{month}</CalendarMonthStyled>
+          <CalendarMonthStyled>
+            {months[month]} {year}
+          </CalendarMonthStyled>
           <NavActionsStyled>
-            <NavActionStyled data-action="prev">
+            <NavActionStyled
+              type="button"
+              onClick={() => changeMonth(-1)}
+              aria-label="Предыдущий месяц"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="6"
@@ -58,7 +93,11 @@ function Calendar({ month = "Сентябрь 2023", activeDay = null }) {
                 <path d="M5.72945 1.95273C6.09018 1.62041 6.09018 1.0833 5.72945 0.750969C5.36622 0.416344 4.7754 0.416344 4.41218 0.750969L0.528487 4.32883C-0.176162 4.97799 -0.176162 6.02201 0.528487 6.67117L4.41217 10.249C4.7754 10.5837 5.36622 10.5837 5.72945 10.249C6.09018 9.9167 6.09018 9.37959 5.72945 9.04727L1.87897 5.5L5.72945 1.95273Z" />
               </svg>
             </NavActionStyled>
-            <NavActionStyled data-action="next">
+            <NavActionStyled
+              type="button"
+              onClick={() => changeMonth(1)}
+              aria-label="Следующий месяц"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="6"
@@ -72,43 +111,45 @@ function Calendar({ month = "Сентябрь 2023", activeDay = null }) {
         </CalendarNavStyled>
         <CalendarContentStyled>
           <CalendarDaysNamesStyled>
-            {daysNames.map((day, index) => (
-              <CalendarDayNameStyled
-                key={index}
-                className={index >= 5 ? "-weekend-" : ""}
-              >
-                {day}
-              </CalendarDayNameStyled>
+            {daysNames.map((day) => (
+              <CalendarDayNameStyled key={day}>{day}</CalendarDayNameStyled>
             ))}
           </CalendarDaysNamesStyled>
           <CalendarCellsStyled>
-            {days.map((day, index) => {
-              let classes = "calendar__cell";
-              if (day === "") {
-                classes += " _other-month";
-              } else if (weekendIndices.includes(index)) {
-                classes += " _cell-day _weekend";
-              } else if (day === 8) {
-                classes += " _cell-day _current";
-              } else if (activeDay && day === activeDay) {
-                classes += " _cell-day _weekend _active-day";
-              } else {
-                classes += " _cell-day";
-              }
+            {Array.from({ length: firstDayIndex }, (_, index) => (
+              <CalendarEmptyCellStyled key={`empty-${index}`} />
+            ))}
+            {Array.from({ length: daysInMonth }, (_, index) => {
+              const day = index + 1;
+              const date = new Date(year, month, day);
+              const isSelected = isSameDay(date, selectedDate);
+              const isToday = isSameDay(date, today);
+
               return (
-                <CalendarCellStyled key={index} className={classes}>
+                <CalendarCellStyled
+                  key={day}
+                  type="button"
+                  className={[
+                    isToday ? "_current" : "",
+                    isSelected ? "_active-day" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  disabled={!onChange}
+                  aria-pressed={isSelected}
+                  onClick={() => handleSelect(day)}
+                >
                   {day}
                 </CalendarCellStyled>
               );
             })}
           </CalendarCellsStyled>
         </CalendarContentStyled>
-        <input type="hidden" id="datepick_value" value="08.09.2023" />
-        <CalendarPeriodStyled>
-          <CalendarPStyled className="calendar__p date-end">
-            Выберите срок исполнения <span className="date-control"></span>.
-          </CalendarPStyled>
-        </CalendarPeriodStyled>
+        {onChange && (
+          <CalendarPeriodStyled>
+            <CalendarPStyled>Выберите срок исполнения</CalendarPStyled>
+          </CalendarPeriodStyled>
+        )}
       </CalendarBlockStyled>
     </CalendarStyled>
   );

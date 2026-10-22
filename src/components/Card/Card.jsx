@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { topicMap } from "../../data";
 import { formatDate } from "../../utils/formatDate";
+import { Palette } from "../../styles/palette";
 import {
   CardsItemStyled,
   CardsCardStyled,
@@ -13,17 +14,21 @@ import {
 } from "./Card.styled";
 
 function Card({ card }) {
-  // API может вернуть id в поле _id или id — берем то, что есть
   const cardId = card.id ?? card._id;
+  const topic = card.topic || "Без категории";
 
   return (
     <CardsItemStyled>
       <CardsCardStyled>
         <CardGroupStyled>
           <CardThemeStyled className={topicMap[card.topic] || "_gray"}>
-            <p>{card.topic}</p>
+            <p>{topic}</p>
           </CardThemeStyled>
-          <CardBtnStyled as={Link} to={`/card/${cardId}`}>
+          <CardBtnStyled
+            as={Link}
+            to={`/card/${cardId}`}
+            aria-label={`Открыть задачу «${card.title}»`}
+          >
             <div></div>
             <div></div>
             <div></div>
@@ -40,17 +45,18 @@ function Card({ card }) {
               height="13"
               viewBox="0 0 13 13"
               fill="none"
+              aria-hidden="true"
             >
               <g clipPath="url(#clip0_1_415)">
                 <path
                   d="M10.5625 2.03125H2.4375C1.7644 2.03125 1.21875 2.5769 1.21875 3.25V10.5625C1.21875 11.2356 1.7644 11.7812 2.4375 11.7812H10.5625C11.2356 11.7812 11.7812 11.2356 11.7812 10.5625V3.25C11.7812 2.5769 11.2356 2.03125 10.5625 2.03125Z"
-                  stroke="#94A6BE"
+                  stroke={Palette.gray}
                   strokeWidth="0.8"
                   strokeLinejoin="round"
                 />
                 <path
                   d="M11.7812 4.0625H1.21875M3.25 1.21875V2.03125V1.21875ZM9.75 1.21875V2.03125V1.21875Z"
-                  stroke="#94A6BE"
+                  stroke={Palette.gray}
                   strokeWidth="0.8"
                   strokeLinecap="round"
                   strokeLinejoin="round"

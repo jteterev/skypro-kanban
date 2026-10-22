@@ -4,7 +4,6 @@ import { AuthContext } from "../contexts/AuthContext";
 import { loginUser } from "../services/auth";
 import {
   AuthContainerStyled,
-  AuthModalStyled,
   AuthBlockStyled,
   AuthTitleStyled,
   AuthFormStyled,
@@ -13,7 +12,7 @@ import {
   AuthFormGroupStyled,
   AuthButtonStyled,
   AuthLinkStyled,
-} from "./LoginPage.styled";
+} from "./AuthPage.styled";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -23,20 +22,11 @@ function LoginPage() {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleLoginChange = (e) => {
-    setLogin(e.target.value);
-    setError("");
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    setError("");
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Валидация полей формы
+    if (isSubmitting) return;
+
     if (!login.trim() || !password.trim()) {
       setError("Заполните логин и пароль");
       return;
@@ -46,70 +36,76 @@ function LoginPage() {
     setError("");
 
     try {
-      // Авторизация только через API
       const data = await loginUser({
         login: login.trim(),
-        password: password.trim(),
+        password,
       });
 
-      // Успех: сохраняем пользователя с токеном и переходим на доску
       authLogin(data.user);
       navigate("/", { replace: true });
     } catch (err) {
-      // Ошибка: показываем сообщение пользователю
       setError(err.message);
-    } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
     <AuthContainerStyled>
-      <AuthModalStyled>
-        <AuthBlockStyled>
-          <AuthTitleStyled>
-            <h2>Вход</h2>
-          </AuthTitleStyled>
-          <AuthFormStyled onSubmit={handleSubmit}>
-            <AuthInputStyled
-              type="text"
-              name="login"
-              id="formloginLogin"
-              placeholder="Логин"
-              value={login}
-              onChange={handleLoginChange}
-              disabled={isSubmitting}
-            />
-            <AuthInputStyled
-              type="password"
-              name="password"
-              id="formloginPass"
-              placeholder="Пароль"
-              value={password}
-              onChange={handlePasswordChange}
-              disabled={isSubmitting}
-            />
-            {error && <p className="auth__error">{error}</p>}
-            <AuthActionsStyled>
-              <AuthFormGroupStyled>
-                <AuthButtonStyled
-                  type="submit"
-                  id="btnLogin"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Входим..." : "Войти"}
-                </AuthButtonStyled>
-              </AuthFormGroupStyled>
-              <AuthFormGroupStyled>
-                <p className="auth-register-text">Нужно зарегистрироваться?</p>
-                <AuthLinkStyled to="/register">
-                  Регистрируйтесь здесь
-                </AuthLinkStyled>
-              </AuthFormGroupStyled>
-            </AuthActionsStyled>
-          </AuthFormStyled>
-        </AuthBlockStyled>
-      </AuthModalStyled>
+      <AuthBlockStyled>
+        <AuthTitleStyled>
+          <h2>Вход</h2>
+        </AuthTitleStyled>
+        <AuthFormStyled onSubmit={handleSubmit} noValidate>
+          <AuthInputStyled
+            type="text"
+            name="login"
+            id="formloginLogin"
+            placeholder="Логин"
+            value={login}
+            onChange={(e) => {
+              setLogin(e.target.value);
+              setError("");
+            }}
+            disabled={isSubmitting}
+            autoComplete="username"
+          />
+          <AuthInputStyled
+            type="password"
+            name="password"
+            id="formloginPass"
+            placeholder="Пароль"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setError("");
+            }}
+            disabled={isSubmitting}
+            autoComplete="current-password"
+          />
+          {error && (
+            <p className="auth__error" role="alert">
+              {error}
+            </p>
+          )}
+          <AuthActionsStyled>
+            <AuthFormGroupStyled>
+              <AuthButtonStyled
+                type="submit"
+                id="btnLogin"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Входим..." : "Войти"}
+              </AuthButtonStyled>
+            </AuthFormGroupStyled>
+            <AuthFormGroupStyled>
+              <p>Нужно зарегистрироваться?</p>
+              <AuthLinkStyled to="/register">
+                Регистрируйтесь здесь
+              </AuthLinkStyled>
+            </AuthFormGroupStyled>
+          </AuthActionsStyled>
+        </AuthFormStyled>
+      </AuthBlockStyled>
     </AuthContainerStyled>
   );
 }

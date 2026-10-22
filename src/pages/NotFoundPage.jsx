@@ -1,24 +1,22 @@
+import { AuthContainerStyled, AuthBlockStyled } from "./AuthPage.styled";
 import {
-  NotFoundPageStyled,
-  NotFoundContainerStyled,
   NotFoundCodeStyled,
   NotFoundTextStyled,
   NotFoundLinkStyled,
 } from "./NotFoundPage.styled";
 
-// Страница 404 — показывается для всех неизвестных маршрутов
 function NotFoundPage() {
   return (
-    <NotFoundPageStyled>
-      <NotFoundContainerStyled>
+    <AuthContainerStyled>
+      <AuthBlockStyled>
         <NotFoundCodeStyled>404</NotFoundCodeStyled>
         <NotFoundTextStyled>
-          Такой страницы не существует. Проверьте адрес или вернитесь на доску
-          задач.
+          Такой страницы не существует. Проверьте адрес или вернитесь на главную
+          страницу.
         </NotFoundTextStyled>
-        <NotFoundLinkStyled to="/">Вернуться на доску</NotFoundLinkStyled>
-      </NotFoundContainerStyled>
-    </NotFoundPageStyled>
+        <NotFoundLinkStyled to="/">Вернуться на главную</NotFoundLinkStyled>
+      </AuthBlockStyled>
+    </AuthContainerStyled>
   );
 }
 

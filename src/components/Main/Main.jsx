@@ -1,89 +1,123 @@
 import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { TaskContext } from "../../contexts/TaskContext";
 import Column from "../Column/Column";
 import Card from "../Card/Card";
+import Loader from "../Loader/Loader";
+import { statuses, defaultStatus } from "../../data";
+import { Palette } from "../../styles/palette";
 import {
   MainStyled,
   MainBlockStyled,
   MainContentStyled,
-  MainColumnStyled,
-  LoadingStyled,
   ErrorStyled,
   ErrorButtonStyled,
+  EmptyStateStyled,
+  EmptyTitleStyled,
+  EmptyTextStyled,
+  EmptyButtonStyled,
+  EmptyIconStyled,
 } from "./Main.styled";
 
 function Main() {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  // Задачи и состояние загрузки приходят из контекста задач
   const { tasks, isLoading, error, getTasks } = useContext(TaskContext);
 
-  // Задачи приходят только с сервера — загружаем один раз при монтировании
   useEffect(() => {
     getTasks(user.token);
   }, [getTasks, user.token]);
 
-  // Повторная загрузка после ошибки
   const handleRetry = () => {
     getTasks(user.token);
   };
 
-  const statusColumns = [
-    { key: "Без статуса", label: "Без статуса" },
-    { key: "Нужно сделать", label: "Нужно сделать" },
-    { key: "В работе", label: "В работе" },
-    { key: "Тестирование", label: "Тестирование" },
-    { key: "Готово", label: "Готово" },
-  ];
+  const getCardsByStatus = (status) =>
+    tasks.filter((card) => {
+      const cardStatus = statuses.includes(card.status)
+        ? card.status
+        : defaultStatus;
 
-  const getCardsByStatus = (status) => {
-    return tasks.filter((card) => card.status === status);
-  };
+      return cardStatus === status;
+    });
 
-  if (isLoading) {
-    return (
-      <MainStyled>
-        <div className="container">
-          <MainBlockStyled>
-            <LoadingStyled>Данные загружаются...</LoadingStyled>
-          </MainBlockStyled>
-        </div>
-      </MainStyled>
-    );
-  }
+  const isBoardVisible = !isLoading && !error && tasks.length > 0;
 
-  if (error) {
-    return (
-      <MainStyled>
-        <div className="container">
-          <MainBlockStyled>
+  return (
+    <MainStyled>
+      <div className="container">
+        <MainBlockStyled>
+          {isLoading && <Loader label="Загружаем задачи..." />}
+
+          {!isLoading && error && (
             <ErrorStyled>
               <p>{error}</p>
               <ErrorButtonStyled type="button" onClick={handleRetry}>
                 Повторить
               </ErrorButtonStyled>
             </ErrorStyled>
-          </MainBlockStyled>
-        </div>
-      </MainStyled>
-    );
-  }
+          )}
 
-  return (
-    <MainStyled>
-      <div className="container">
-        <MainBlockStyled>
-          <MainContentStyled>
-            {statusColumns.map((column) => (
-              <MainColumnStyled key={column.key}>
-                <Column title={column.label}>
-                  {getCardsByStatus(column.key).map((card) => (
+          {!isLoading && !error && tasks.length === 0 && (
+            <EmptyStateStyled>
+              <EmptyIconStyled>
+                <svg
+                  viewBox="0 0 48 48"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <rect
+                    x="5"
+                    y="8"
+                    width="10"
+                    height="32"
+                    rx="3"
+                    fill={Palette.border}
+                  />
+                  <rect
+                    x="19"
+                    y="8"
+                    width="10"
+                    height="22"
+                    rx="3"
+                    fill={Palette.border}
+                  />
+                  <rect
+                    x="33"
+                    y="8"
+                    width="10"
+                    height="14"
+                    rx="3"
+                    fill={Palette.border}
+                  />
+                </svg>
+              </EmptyIconStyled>
+              <EmptyTitleStyled>Новых задач нет</EmptyTitleStyled>
+              <EmptyTextStyled>
+                Создайте первую задачу, чтобы начать работу с доской
+              </EmptyTextStyled>
+              <EmptyButtonStyled
+                type="button"
+                onClick={() => navigate("/new-card")}
+              >
+                Создать задачу
+              </EmptyButtonStyled>
+            </EmptyStateStyled>
+          )}
+
+          {isBoardVisible && (
+            <MainContentStyled>
+              {statuses.map((status) => (
+                <Column key={status} title={status}>
+                  {getCardsByStatus(status).map((card) => (
                     <Card key={card._id || card.id} card={card} />
                   ))}
                 </Column>
-              </MainColumnStyled>
-            ))}
-          </MainContentStyled>
+              ))}
+            </MainContentStyled>
+          )}
         </MainBlockStyled>
       </div>
     </MainStyled>

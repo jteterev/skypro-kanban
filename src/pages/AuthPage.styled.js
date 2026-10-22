@@ -1,61 +1,40 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { Palette } from "../styles/palette";
 
-const Palette = {
-  primary: "#6366f1",
-  primaryHover: "#4f46e5",
-  gray: "#94a6be",
-  lightGray: "#f1f5f9",
-  white: "#ffffff",
-  black: "#0f172a",
-  border: "#e2e8f0",
-  red: "#ef4444",
-};
-
-export const AuthContainerStyled = styled.div`
-  width: 100vw;
+export const AuthContainerStyled = styled.main`
+  width: 100%;
   min-height: 100vh;
-  overflow: auto;
-  background-color: #f8fafc;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px 16px;
-`;
-
-export const AuthModalStyled = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: ${Palette.lightGray};
 `;
 
 export const AuthBlockStyled = styled.div`
-  display: block;
-  margin: 0 auto;
   background-color: ${Palette.white};
   max-width: 420px;
   width: 100%;
-  padding: 48px 40px 40px;
-  border-radius: 24px;
-  border: none;
-  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.06);
+  padding: 40px 30px 36px;
+  border-radius: 10px;
+  border: 0.7px solid ${Palette.border};
+  box-shadow: ${Palette.cardShadow};
 
   @media screen and (max-width: 495px) {
-    padding: 36px 24px 32px;
-    border-radius: 20px;
+    padding: 28px 20px 26px;
   }
 `;
 
 export const AuthTitleStyled = styled.div`
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 
   h2 {
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.3;
     color: ${Palette.black};
-    letter-spacing: -0.5px;
   }
 `;
 
@@ -63,37 +42,42 @@ export const AuthFormStyled = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
 
   .auth__error {
+    margin-top: 4px;
     color: ${Palette.red};
     font-size: 13px;
     line-height: 20px;
-    margin: 8px 0 0;
     text-align: center;
   }
 `;
 
 export const AuthInputStyled = styled.input`
   width: 100%;
-  height: 48px;
-  padding: 0 16px;
-  border: 1px solid ${Palette.border};
-  border-radius: 12px;
-  font-size: 15px;
-  color: ${Palette.black};
-  background: ${Palette.white};
-  outline: none;
-  transition: border-color 0.2s;
+  height: 40px;
   margin-bottom: 16px;
+  padding: 10px 14px;
+  border: 0.7px solid ${Palette.border};
+  border-radius: 8px;
+  font-size: 14px;
+  color: ${Palette.black};
+  background: ${Palette.inputBg};
+  outline: none;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
 
   &:focus {
     border-color: ${Palette.primary};
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+    background: ${Palette.white};
   }
 
   &::placeholder {
     color: ${Palette.gray};
+  }
+
+  &:disabled {
+    opacity: 0.7;
   }
 `;
 
@@ -101,7 +85,6 @@ export const AuthActionsStyled = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 16px;
   margin-top: 8px;
 `;
@@ -109,11 +92,13 @@ export const AuthActionsStyled = styled.div`
 export const AuthFormGroupStyled = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 4px;
 
   p {
     font-size: 14px;
+    line-height: 1.5;
     color: ${Palette.gray};
     text-align: center;
   }
@@ -121,42 +106,36 @@ export const AuthFormGroupStyled = styled.div`
 
 export const AuthButtonStyled = styled.button`
   width: 100%;
-  height: 48px;
-  background-color: ${Palette.primary};
-  border-radius: 12px;
-  border: none;
-  outline: none;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  font-weight: 600;
+  background-color: ${Palette.primary};
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
   color: ${Palette.white};
-  cursor: pointer;
   transition: background-color 0.2s;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: ${Palette.primaryHover};
   }
 
-  &:active {
-    transform: scale(0.98);
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 `;
 
 export const AuthLinkStyled = styled(Link)`
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
   font-size: 14px;
-  line-height: 150%;
-  letter-spacing: -0.01em;
+  line-height: 1.5;
   text-align: center;
-  display: block;
-  color: #6366f1;
+  color: ${Palette.primary};
   text-decoration: underline;
-  cursor: pointer;
 
   &:hover {
-    color: #4f46e5;
+    color: ${Palette.primaryHover};
   }
 `;

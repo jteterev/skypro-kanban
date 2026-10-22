@@ -1,46 +1,29 @@
 import styled from "styled-components";
+import { Palette } from "../styles/palette";
 
-const Palette = {
-  primary: "#6366f1",
-  primaryHover: "#4f46e5",
-  white: "#ffffff",
-  black: "#0f172a",
-  border: "#e2e8f0",
-};
-
-export const ExitPageStyled = styled.div`
-  // Вложенная страница — модальный оверлей поверх доски
+export const ExitPageStyled = styled.main`
   position: fixed;
   inset: 0;
   z-index: 5;
-  overflow-y: auto;
-`;
-
-export const ExitContainerStyled = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  padding: 20px 16px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
+  padding: 20px 16px;
+  overflow-y: auto;
+  background: ${Palette.overlay};
 `;
 
 export const ExitBlockStyled = styled.div`
-  display: block;
-  margin: 0 auto;
   background-color: ${Palette.white};
   max-width: 420px;
   width: 100%;
-  padding: 48px 40px 40px;
-  border-radius: 24px;
-  border: none;
-  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.08);
+  padding: 40px 30px 36px;
+  border-radius: 10px;
+  border: 0.7px solid ${Palette.border};
+  box-shadow: ${Palette.cardShadow};
 
   @media screen and (max-width: 495px) {
-    padding: 36px 24px 32px;
-    border-radius: 20px;
+    padding: 28px 20px 26px;
   }
 `;
 
@@ -48,15 +31,11 @@ export const ExitTitleStyled = styled.div`
   h2 {
     text-align: center;
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 600;
+    line-height: 1.3;
     color: ${Palette.black};
-    letter-spacing: -0.5px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
-`;
-
-export const ExitFormStyled = styled.form`
-  width: 100%;
 `;
 
 export const ExitFormGroupStyled = styled.div`
@@ -73,26 +52,20 @@ export const ExitFormGroupStyled = styled.div`
 
 export const ExitYesButtonStyled = styled.button`
   width: 153px;
-  height: 48px;
-  background-color: ${Palette.primary};
-  border-radius: 12px;
-  border: none;
-  outline: none;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  font-weight: 600;
+  background-color: ${Palette.primary};
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
   color: ${Palette.white};
-  cursor: pointer;
   transition: background-color 0.2s;
 
   &:hover {
     background-color: ${Palette.primaryHover};
-  }
-
-  &:active {
-    transform: scale(0.98);
   }
 
   @media screen and (max-width: 495px) {
@@ -102,27 +75,21 @@ export const ExitYesButtonStyled = styled.button`
 
 export const ExitNoButtonStyled = styled.button`
   width: 153px;
-  height: 48px;
-  background-color: transparent;
-  border-radius: 12px;
-  border: 1px solid ${Palette.primary};
-  outline: none;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  font-weight: 600;
+  background-color: transparent;
+  border: 1px solid ${Palette.primary};
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
   color: ${Palette.primary};
-  cursor: pointer;
   transition: all 0.2s;
 
   &:hover {
     background-color: ${Palette.primary};
     color: ${Palette.white};
-  }
-
-  &:active {
-    transform: scale(0.98);
   }
 
   @media screen and (max-width: 495px) {

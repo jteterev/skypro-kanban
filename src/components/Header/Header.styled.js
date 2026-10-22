@@ -1,16 +1,5 @@
 import styled from "styled-components";
-
-export const Palette = {
-  primary: "#565eef",
-  primaryHover: "#33399b",
-  gray: "#94a6be",
-  lightGray: "#eaeef6",
-  white: "#ffffff",
-  black: "#000000",
-  border: "#d4dbe5",
-  shadow: "0px 10px 39px 0px rgba(26, 56, 101, 0.21)",
-  borderGray: "rgba(148, 166, 190, 0.4)",
-};
+import { Palette } from "../../styles/palette";
 
 export const HeaderStyled = styled.header`
   width: 100%;
@@ -45,7 +34,9 @@ export const HeaderBlockStyled = styled.div`
 
 export const HeaderLogoStyled = styled.div`
   img {
-    width: 85px;
+    display: block;
+    width: 120px;
+    height: auto;
   }
 `;
 
@@ -74,11 +65,6 @@ export const HeaderBtnNewStyled = styled.button`
   font-weight: 500;
   margin-right: 20px;
   cursor: pointer;
-  outline: none;
-
-  a {
-    color: ${Palette.white};
-  }
 
   &:hover {
     background-color: ${Palette.primaryHover};
@@ -90,12 +76,15 @@ export const HeaderBtnNewStyled = styled.button`
   }
 `;
 
-export const HeaderUserStyled = styled.span`
+export const HeaderUserStyled = styled.button`
   height: 20px;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
   font-size: 14px;
   line-height: 20px;
   color: ${Palette.primary};

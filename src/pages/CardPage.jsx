@@ -1,9 +1,10 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { TaskContext } from "../contexts/TaskContext";
 import Calendar from "../components/Calendar/Calendar";
-import { topicMap } from "../data";
+import Loader from "../components/Loader/Loader";
+import { statuses, defaultStatus, topicMap } from "../data";
 import { getTaskById } from "../services/tasks";
 import { formatDate } from "../utils/formatDate";
 import {
@@ -22,61 +23,56 @@ import {
   CardAreaStyled,
   CardAreaViewStyled,
   CardBtnBrowseStyled,
-  CardBtnEditStyled,
   CardButtonStyled,
   CardCloseButtonStyled,
   CardErrorStyled,
   CardSaveErrorStyled,
 } from "./CardPage.styled";
 
-const statuses = [
-  "Без статуса",
-  "Нужно сделать",
-  "В работе",
-  "Тестирование",
-  "Готово",
-];
-
-// Страница просмотра и редактирования задачи — вложенный маршрут
-// поверх доски, данные с API
 function CardPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useContext(AuthContext);
-  // editTask / deleteTask из контекста задач обновляют общий список задач
   const { editTask, deleteTask } = useContext(TaskContext);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [loadError, setLoadError] = useState("");
   const [card, setCard] = useState(null);
 
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState(statuses[0]);
+  const [status, setStatus] = useState(defaultStatus);
+  const [date, setDate] = useState("");
+  const [formError, setFormError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
-  const [saveError, setSaveError] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  // Загрузка задачи по id с сервера
   useEffect(() => {
     let cancelled = false;
 
     const loadCard = async () => {
       setIsLoading(true);
-      setError("");
+      setLoadError("");
 
       try {
         const data = await getTaskById(user.token, id);
         if (cancelled) return;
 
-        const task = data.task;
+        const task = data?.task;
+        if (!task) {
+          setLoadError("Задача не найдена");
+          return;
+        }
+
         setCard(task);
-        setTitle(task.title);
+        setTitle(task.title || "");
         setDescription(task.description || "");
-        setStatus(statuses.includes(task.status) ? task.status : statuses[0]);
+        setStatus(statuses.includes(task.status) ? task.status : defaultStatus);
+        setDate(task.date || "");
       } catch (err) {
         if (cancelled) return;
-        setError(err.status === 404 ? "Задача не найдена" : err.message);
+        setLoadError(err.status === 404 ? "Задача не найдена" : err.message);
       } finally {
         if (!cancelled) {
           setIsLoading(false);
@@ -89,98 +85,108 @@ function CardPage() {
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, user.token]);
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
-
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const handleStatusSelect = (selectedStatus) => {
-    setStatus(selectedStatus);
+  const resetForm = () => {
+    setTitle(card.title || "");
+    setDescription(card.description || "");
+    setStatus(statuses.includes(card.status) ? card.status : defaultStatus);
+    setDate(card.date || "");
+    setFormError("");
   };
 
   const handleEditClick = () => {
+    resetForm();
     setIsEditing(true);
-    setSaveError("");
   };
 
-  // Сохранение изменений через API
+  const handleCancel = () => {
+    resetForm();
+    setIsEditing(false);
+  };
+
   const handleSave = async () => {
-    if (!title.trim()) {
-      setSaveError("Введите название задачи");
+    const trimmedTitle = title.trim();
+    const trimmedDescription = description.trim();
+
+    if (!trimmedTitle) {
+      setFormError("Введите название задачи");
+      return;
+    }
+
+    if (!trimmedDescription) {
+      setFormError("Введите описание задачи");
+      return;
+    }
+
+    if (!date) {
+      setFormError("Выберите дату задачи");
       return;
     }
 
     setIsSaving(true);
-    setSaveError("");
+    setFormError("");
+
+    const updatedTask = {
+      title: trimmedTitle,
+      topic: card.topic,
+      status,
+      description: trimmedDescription,
+      date,
+    };
 
     try {
-      await editTask(user.token, id, {
-        title: title.trim(),
-        topic: card.topic,
-        status,
-        description: description.trim(),
-        date: card.date,
-      });
-
+      await editTask(user.token, id, updatedTask);
+      setCard((prevCard) => ({ ...prevCard, ...updatedTask }));
+      setTitle(updatedTask.title);
+      setDescription(updatedTask.description);
       setIsEditing(false);
-      navigate("/");
     } catch (err) {
-      setSaveError(err.message);
+      setFormError(err.message);
+    } finally {
       setIsSaving(false);
     }
   };
 
-  // Удаление задачи через API
   const handleDelete = async () => {
-    setIsSaving(true);
-    setSaveError("");
+    setIsDeleting(true);
+    setFormError("");
 
     try {
       await deleteTask(user.token, id);
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (err) {
-      setSaveError(err.message);
-      setIsSaving(false);
+      setFormError(err.message);
+      setIsDeleting(false);
     }
   };
 
-  const handleCancel = () => {
-    setIsEditing(false);
-    setSaveError("");
-    // Возвращаем исходные значения задачи
-    setTitle(card.title);
-    setDescription(card.description || "");
-    setStatus(statuses.includes(card.status) ? card.status : statuses[0]);
-  };
+  const isBusy = isSaving || isDeleting;
 
   if (isLoading) {
     return (
       <CardPageStyled>
         <ContainerStyled>
           <CardBlockStyled>
-            <CardIdStyled>ID задачи: {id}</CardIdStyled>
-            <CardTitleStyled>Загрузка...</CardTitleStyled>
+            <Loader label="Загружаем задачу..." />
           </CardBlockStyled>
         </ContainerStyled>
       </CardPageStyled>
     );
   }
 
-  if (error) {
+  if (loadError) {
     return (
       <CardPageStyled>
         <ContainerStyled>
           <CardBlockStyled>
             <CardIdStyled>ID задачи: {id}</CardIdStyled>
-            <CardTitleStyled>{error}</CardTitleStyled>
+            <CardTitleStyled>{loadError}</CardTitleStyled>
             <CardErrorStyled>
-              <CardCloseButtonStyled onClick={() => navigate("/")}>
+              <CardCloseButtonStyled
+                type="button"
+                onClick={() => navigate("/")}
+              >
                 Вернуться на доску
               </CardCloseButtonStyled>
             </CardErrorStyled>
@@ -200,16 +206,19 @@ function CardPage() {
               <CardTitleInputStyled
                 type="text"
                 value={title}
-                onChange={handleTitleChange}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Введите название задачи..."
+                aria-label="Название задачи"
                 autoFocus
               />
             ) : (
               <CardTitleStyled>{card.title}</CardTitleStyled>
             )}
             <CardThemeStyled className={topicMap[card.topic] || "_gray"}>
-              <p className={topicMap[card.topic] || "_gray"}>{card.topic}</p>
+              <p>{card.topic || "Без категории"}</p>
             </CardThemeStyled>
           </CardTopBlockStyled>
+
           <CardStatusStyled>
             <p className="status__p subttl">Статус</p>
             <div className="status__themes">
@@ -217,15 +226,14 @@ function CardPage() {
                 <CardStatusThemeStyled
                   key={item}
                   className={status === item ? "_active-status" : ""}
-                  onClick={
-                    isEditing ? () => handleStatusSelect(item) : undefined
-                  }
+                  onClick={isEditing ? () => setStatus(item) : undefined}
                 >
                   <p>{item}</p>
                 </CardStatusThemeStyled>
               ))}
             </div>
           </CardStatusStyled>
+
           <CardWrapStyled>
             <CardFormStyled>
               <div className="form-browse__block">
@@ -233,8 +241,9 @@ function CardPage() {
                 {isEditing ? (
                   <CardAreaStyled
                     value={description}
-                    onChange={handleDescriptionChange}
+                    onChange={(e) => setDescription(e.target.value)}
                     placeholder="Введите описание задачи..."
+                    aria-label="Описание задачи"
                   />
                 ) : (
                   <CardAreaViewStyled>
@@ -245,58 +254,61 @@ function CardPage() {
               <div className="form-browse__date">
                 <p className="subttl">Дата</p>
                 <p className="form-browse__date-value">
-                  {formatDate(card.date)}
+                  {formatDate(date) || "Не указана"}
                 </p>
               </div>
             </CardFormStyled>
-            <Calendar />
+            <Calendar value={date} onChange={isEditing ? setDate : undefined} />
           </CardWrapStyled>
 
-          {saveError && <CardSaveErrorStyled>{saveError}</CardSaveErrorStyled>}
-
-          {!isEditing && (
-            <CardBtnBrowseStyled>
-              <div className="btn-group">
-                <CardButtonStyled type="button" onClick={handleEditClick}>
-                  Редактировать задачу
-                </CardButtonStyled>
-                <CardButtonStyled
-                  type="button"
-                  onClick={handleDelete}
-                  disabled={isSaving}
-                >
-                  Удалить задачу
-                </CardButtonStyled>
-              </div>
-              <CardCloseButtonStyled onClick={() => navigate("/")}>
-                Закрыть
-              </CardCloseButtonStyled>
-            </CardBtnBrowseStyled>
+          {formError && (
+            <CardSaveErrorStyled role="alert">{formError}</CardSaveErrorStyled>
           )}
 
-          {isEditing && (
-            <CardBtnEditStyled>
+          <CardBtnBrowseStyled>
+            {isEditing ? (
               <div className="btn-group">
                 <CardButtonStyled
                   type="button"
                   onClick={handleSave}
-                  disabled={isSaving}
+                  disabled={isBusy}
                 >
                   {isSaving ? "Сохраняем..." : "Сохранить"}
                 </CardButtonStyled>
                 <CardButtonStyled
                   type="button"
                   onClick={handleCancel}
-                  disabled={isSaving}
+                  disabled={isBusy}
                 >
                   Отменить
                 </CardButtonStyled>
               </div>
-              <CardCloseButtonStyled onClick={() => navigate("/")}>
-                Закрыть
-              </CardCloseButtonStyled>
-            </CardBtnEditStyled>
-          )}
+            ) : (
+              <div className="btn-group">
+                <CardButtonStyled
+                  type="button"
+                  onClick={handleEditClick}
+                  disabled={isBusy}
+                >
+                  Редактировать задачу
+                </CardButtonStyled>
+                <CardButtonStyled
+                  type="button"
+                  onClick={handleDelete}
+                  disabled={isBusy}
+                >
+                  {isDeleting ? "Удаляем..." : "Удалить задачу"}
+                </CardButtonStyled>
+              </div>
+            )}
+            <CardCloseButtonStyled
+              type="button"
+              onClick={() => navigate("/")}
+              disabled={isBusy}
+            >
+              Закрыть
+            </CardCloseButtonStyled>
+          </CardBtnBrowseStyled>
         </CardBlockStyled>
       </ContainerStyled>
     </CardPageStyled>
