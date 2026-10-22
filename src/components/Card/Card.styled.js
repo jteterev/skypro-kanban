@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { Palette } from "../../styles/palette";
 
 const cardAnimation = keyframes`
   0% {
@@ -11,38 +12,19 @@ const cardAnimation = keyframes`
   }
 `;
 
-export const Palette = {
-  primary: "#565eef",
-  gray: "#94a6be",
-  lightGray: "#eaeef6",
-  white: "#ffffff",
-  black: "#000000",
-  orange: "#ff6d00",
-  orangeBg: "#ffe4c2",
-  green: "#06b16e",
-  greenBg: "#b4fdd1",
-  purple: "#9a48f1",
-  purpleBg: "#e9d4ff",
-  grayTheme: "#94a6be",
-  grayThemeBg: "#94a6be",
-};
-
-export const CategoryColors = {
-  _orange: { bg: Palette.orangeBg, color: Palette.orange },
-  _green: { bg: Palette.greenBg, color: Palette.green },
-  _purple: { bg: Palette.purpleBg, color: Palette.purple },
-  _gray: { bg: Palette.grayThemeBg, color: Palette.white },
-};
-
 export const CardsItemStyled = styled.div`
   padding: 5px;
   animation-name: ${cardAnimation};
   animation-duration: 500ms;
   animation-timing-function: linear;
+
+  @media screen and (max-width: 1200px) {
+    flex: 0 0 230px;
+  }
 `;
 
 export const CardsCardStyled = styled.div`
-  width: 220px;
+  width: 100%;
   height: 130px;
   background-color: ${Palette.white};
   border-radius: 10px;
@@ -54,7 +36,6 @@ export const CardsCardStyled = styled.div`
 
   @media screen and (max-width: 1200px) {
     width: 220px;
-    height: 130px;
   }
 `;
 
@@ -98,11 +79,16 @@ export const CardBtnStyled = styled.div`
 `;
 
 export const CardTitleStyled = styled.h3`
+  display: -webkit-box;
+  overflow: hidden;
   font-size: 14px;
   font-weight: 500;
   line-height: 18px;
   color: ${Palette.black};
   margin-bottom: 10px;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow-wrap: anywhere;
 `;
 
 export const CardContentStyled = styled.div`

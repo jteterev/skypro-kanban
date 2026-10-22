@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import PopUser from "../popups/PopUser/PopUser";
@@ -14,10 +14,27 @@ import {
 function Header() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const navRef = useRef(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
+  useEffect(() => {
+    if (!isUserMenuOpen) return undefined;
+
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isUserMenuOpen]);
+
   const toggleUserMenu = () => {
-    setIsUserMenuOpen(!isUserMenuOpen);
+    setIsUserMenuOpen((isOpen) => !isOpen);
   };
 
   const handleOpenNewCard = () => {
@@ -29,24 +46,31 @@ function Header() {
     <HeaderStyled>
       <div className="container">
         <HeaderBlockStyled>
-          <HeaderLogoStyled className="_show _light">
-            <Link to="/">
-              <img src="/logo.png" alt="logo" />
+          <HeaderLogoStyled>
+            <Link to="/" aria-label="На главную">
+              <img src="/logo.png" alt="Канбан-доска" />
             </Link>
           </HeaderLogoStyled>
-          <HeaderLogoStyled className="_dark">
-            <Link to="/">
-              <img src="/logo_dark.png" alt="logo" />
-            </Link>
-          </HeaderLogoStyled>
-          <HeaderNavStyled>
-            <HeaderBtnNewStyled id="btnMainNew" onClick={handleOpenNewCard}>
-              <a>Создать новую задачу</a>
+          <HeaderNavStyled ref={navRef}>
+            <HeaderBtnNewStyled
+              type="button"
+              id="btnMainNew"
+              onClick={handleOpenNewCard}
+            >
+              Создать новую задачу
             </HeaderBtnNewStyled>
-            <HeaderUserStyled onClick={toggleUserMenu}>
+            <HeaderUserStyled
+              type="button"
+              onClick={toggleUserMenu}
+              aria-expanded={isUserMenuOpen}
+              aria-haspopup="true"
+            >
               {user ? user.name || user.login : ""}
             </HeaderUserStyled>
-            <PopUser isOpen={isUserMenuOpen} />
+            <PopUser
+              isOpen={isUserMenuOpen}
+              onClose={() => setIsUserMenuOpen(false)}
+            />
           </HeaderNavStyled>
         </HeaderBlockStyled>
       </div>

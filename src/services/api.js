@@ -1,20 +1,33 @@
-const BASE_URL = "https://wedev-api.sky.pro/api";
+const BASE_URL =
+  import.meta.env.VITE_API_URL || "https://wedev-api.sky.pro/api";
+const REQUEST_TIMEOUT = 15000;
 
-// Ошибка API с HTTP-статусом, чтобы страницы могли
-// различать сценарии (например, 404 — задача не найдена)
 export class ApiError extends Error {
-  constructor(message, status) {
+  constructor(message, status = 0) {
     super(message);
     this.name = "ApiError";
     this.status = status;
   }
 }
 
-// Базовый запрос к API.
-// Особенность API: тело передается как JSON-строка БЕЗ заголовка
-// Content-Type (API не принимает application/json),
-// токен передается в заголовке Authorization: Bearer <token>
+async function getErrorMessage(response) {
+  const fallback = `Ошибка запроса (${response.status})`;
+
+  try {
+    const text = await response.text();
+    if (!text) return fallback;
+
+    const data = JSON.parse(text);
+    return data.error || data.errorMessage || data.message || fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 export async function request(path, { method = "GET", token, body } = {}) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+
   let response;
 
   try {
@@ -22,26 +35,28 @@ export async function request(path, { method = "GET", token, body } = {}) {
       method,
       headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       body: body !== undefined ? JSON.stringify(body) : undefined,
+      signal: controller.signal,
     });
-  } catch {
-    // Сетевая ошибка: сервер недоступен, нет соединения и т.д.
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new ApiError("Сервер не отвечает, попробуйте позже");
+    }
+
     throw new ApiError("Сервер недоступен, проверьте подключение к интернету");
+  } finally {
+    clearTimeout(timeoutId);
   }
 
   if (!response.ok) {
-    let message = `Ошибка запроса (${response.status})`;
-    try {
-      const data = await response.json();
-      message = data.error || data.errorMessage || data.message || message;
-    } catch {
-      // Ответ не в формате JSON — оставляем сообщение по умолчанию
-    }
-    throw new ApiError(message, response.status);
+    throw new ApiError(await getErrorMessage(response), response.status);
   }
 
+  const text = await response.text();
+  if (!text) return null;
+
   try {
-    return await response.json();
+    return JSON.parse(text);
   } catch {
-    return null;
+    throw new ApiError("Сервер вернул некорректный ответ", response.status);
   }
 }
